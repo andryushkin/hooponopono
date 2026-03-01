@@ -16,6 +16,140 @@
     "ms": ["Maaf", "Tolong maafkan saya", "Terima kasih", "Saya cinta padamu"],
     "ar": ["آسف", "سامحني من فضلك", "شكراً", "أنا أحبك"]
   },
+  "info": {
+    "en": {
+      "title": "Ho'oponopono",
+      "tagline": "An ancient Hawaiian practice of reconciliation and forgiveness",
+      "sections": [
+        { "h": "What is Ho'oponopono?", "p": "Ho'oponopono is a Hawaiian spiritual practice meaning 'to make right.' Rooted in the belief that we are each responsible for everything in our reality, it uses four simple phrases to clear old memories, dissolve painful patterns, and restore harmony between yourself and the world." },
+        { "h": "Why practice with the world?", "p": "This site synchronizes every visitor to the same phrase at the same moment, worldwide. When many people hold the same intention simultaneously, the practice moves from a private ritual to a shared field of healing. You are never practicing alone." },
+        { "h": "The four phrases", "p": "I'm sorry — acknowledge that something in you may have created or attracted this. Please forgive me — ask for release, without needing to know what or who to forgive. Thank you — express gratitude to the universe, to life, to the unknown. I love you — direct unconditional love at the source of all things." },
+        { "h": "Building a daily habit", "p": "Even a few minutes daily creates momentum. Try sitting quietly at the same time each day, breathing slowly, and letting each phrase arise naturally. Over weeks, many practitioners notice a softening of old resentments, lighter moods, and a sense of inner spaciousness." }
+      ],
+      "close": "Close"
+    },
+    "ru": {
+      "title": "Хо'опонопоно",
+      "tagline": "Древняя гавайская практика примирения и прощения",
+      "sections": [
+        { "h": "Что такое Хо'опонопоно?", "p": "Хо'опонопоно — гавайская духовная практика, означающая «исправить». В основе лежит убеждение, что каждый из нас несёт ответственность за всё в своей реальности. Четыре простые фразы помогают очистить старые воспоминания, растворить болезненные паттерны и восстановить гармонию между собой и миром." },
+        { "h": "Зачем практиковать вместе с миром?", "p": "Этот сайт синхронизирует всех посетителей с одной фразой в один момент по всему миру. Когда многие люди одновременно держат одно намерение, практика превращается из личного ритуала в общее поле исцеления. Вы никогда не практикуете в одиночестве." },
+        { "h": "Четыре фразы", "p": "Мне очень жаль — признайте, что что-то в вас могло создать или притянуть это. Пожалуйста, прости меня — попросите освобождения, не зная точно, что или кого прощать. Благодарю — выразите благодарность вселенной, жизни, неизвестному. Я люблю тебя — направьте безусловную любовь к источнику всего сущего." },
+        { "h": "Как выработать ежедневную привычку", "p": "Даже несколько минут в день создают импульс. Попробуйте садиться в тишине в одно и то же время, дышать медленно и позволять каждой фразе возникать естественно. Со временем многие практикующие замечают, что старые обиды смягчаются, настроение становится легче, а внутри появляется больше пространства." }
+      ],
+      "close": "Закрыть"
+    },
+    "es": {
+      "title": "Ho'oponopono",
+      "tagline": "Una antigua práctica hawaiana de reconciliación y perdón",
+      "sections": [
+        { "h": "¿Qué es el Ho'oponopono?", "p": "El Ho'oponopono es una práctica espiritual hawaiana que significa 'corregir'. Basada en la creencia de que cada uno de nosotros es responsable de todo en su realidad, usa cuatro frases simples para limpiar memorias antiguas, disolver patrones dolorosos y restaurar la armonía entre uno mismo y el mundo." },
+        { "h": "¿Por qué practicar con el mundo?", "p": "Este sitio sincroniza a cada visitante con la misma frase en el mismo momento, en todo el mundo. Cuando muchas personas sostienen la misma intención simultáneamente, la práctica pasa de ser un ritual privado a un campo compartido de sanación. Nunca practicas solo." },
+        { "h": "Las cuatro frases", "p": "Lo siento — reconoce que algo en ti pudo haber creado o atraído esto. Por favor, perdóname — pide liberación, sin necesidad de saber qué o a quién perdonar. Gracias — expresa gratitud al universo, a la vida, a lo desconocido. Te amo — dirige amor incondicional a la fuente de todas las cosas." },
+        { "h": "Crear un hábito diario", "p": "Incluso unos pocos minutos al día generan impulso. Intenta sentarte en silencio a la misma hora cada día, respirar lentamente y dejar que cada frase surja naturalmente. Con el tiempo, muchos practicantes notan un ablandamiento de viejos resentimientos, estados de ánimo más ligeros y una sensación de espaciosidad interior." }
+      ],
+      "close": "Cerrar"
+    },
+    "pt": {
+      "title": "Ho'oponopono",
+      "tagline": "Uma antiga prática havaiana de reconciliação e perdão",
+      "sections": [
+        { "h": "O que é o Ho'oponopono?", "p": "Ho'oponopono é uma prática espiritual havaiana que significa 'corrigir'. Enraizada na crença de que cada um de nós é responsável por tudo em sua realidade, ela usa quatro frases simples para limpar memórias antigas, dissolver padrões dolorosos e restaurar a harmonia entre você e o mundo." },
+        { "h": "Por que praticar com o mundo?", "p": "Este site sincroniza todos os visitantes com a mesma frase no mesmo momento, em todo o mundo. Quando muitas pessoas sustentam a mesma intenção simultaneamente, a prática passa de um ritual privado para um campo compartilhado de cura. Você nunca pratica sozinho(a)." },
+        { "h": "As quatro frases", "p": "Desculpe — reconheça que algo em você pode ter criado ou atraído isso. Por favor, me perdoe — peça libertação, sem precisar saber o que ou quem perdoar. Obrigado(a) — expresse gratidão ao universo, à vida, ao desconhecido. Eu te amo — dirija amor incondicional à fonte de todas as coisas." },
+        { "h": "Construindo um hábito diário", "p": "Mesmo alguns minutos por dia criam impulso. Tente sentar em silêncio no mesmo horário todos os dias, respirar lentamente e deixar cada frase surgir naturalmente. Ao longo das semanas, muitos praticantes percebem um amolecimento de antigos ressentimentos, estados de humor mais leves e uma sensação de espaço interior." }
+      ],
+      "close": "Fechar"
+    },
+    "de": {
+      "title": "Ho'oponopono",
+      "tagline": "Eine alte hawaiianische Praxis der Versöhnung und Vergebung",
+      "sections": [
+        { "h": "Was ist Ho'oponopono?", "p": "Ho'oponopono ist eine hawaiianische Spiritualpraxis, die 'richtigstellen' bedeutet. Gegründet auf der Überzeugung, dass jeder von uns für alles in seiner Realität verantwortlich ist, verwendet sie vier einfache Sätze, um alte Erinnerungen zu klären, schmerzhafte Muster aufzulösen und die Harmonie zwischen sich selbst und der Welt wiederherzustellen." },
+        { "h": "Warum gemeinsam mit der Welt üben?", "p": "Diese Seite synchronisiert jeden Besucher weltweit mit demselben Satz im selben Moment. Wenn viele Menschen gleichzeitig dieselbe Absicht halten, wandelt sich die Praxis von einem privaten Ritual zu einem gemeinsamen Feld des Heilens. Du übst nie allein." },
+        { "h": "Die vier Sätze", "p": "Es tut mir leid — erkenne an, dass etwas in dir das möglicherweise erschaffen oder angezogen hat. Bitte vergib mir — bitte um Loslassen, ohne wissen zu müssen, was oder wem vergeben werden soll. Danke — drücke Dankbarkeit gegenüber dem Universum, dem Leben, dem Unbekannten aus. Ich liebe dich — richte bedingungslose Liebe an die Quelle aller Dinge." },
+        { "h": "Eine tägliche Gewohnheit aufbauen", "p": "Selbst wenige Minuten täglich erzeugen Schwung. Versuche, dich täglich zur gleichen Zeit still hinzusetzen, langsam zu atmen und jeden Satz natürlich entstehen zu lassen. Im Laufe der Wochen bemerken viele Praktizierende eine Milderung alter Groll, leichtere Stimmungen und ein Gefühl von innerer Weite." }
+      ],
+      "close": "Schließen"
+    },
+    "cs": {
+      "title": "Ho'oponopono",
+      "tagline": "Starodávná havajská praxe usmíření a odpuštění",
+      "sections": [
+        { "h": "Co je Ho'oponopono?", "p": "Ho'oponopono je havajská duchovní praxe, která znamená 'napravit'. Vychází z přesvědčení, že každý z nás nese odpovědnost za vše ve své realitě. Čtyři jednoduché věty pomáhají vyčistit staré vzpomínky, rozpustit bolestivé vzorce a obnovit harmonii mezi sebou samým a světem." },
+        { "h": "Proč praktikovat spolu se světem?", "p": "Tento web synchronizuje každého návštěvníka se stejnou větou ve stejný okamžik po celém světě. Když mnoho lidí sdílí stejný záměr současně, praxe se mění ze soukromého rituálu na společné pole uzdravení. Nikdy nepraktikuješ sám(a)." },
+        { "h": "Čtyři věty", "p": "Promiň — uznej, že něco v tobě to mohlo vytvořit nebo přitáhnout. Prosím, odpusť mi — požádej o osvobození, aniž bys věděl(a), co nebo komu odpustit. Děkuji — vyjádři vděčnost vesmíru, životu, neznámému. Miluji tě — nasměruj bezpodmínečnou lásku ke zdroji všeho." },
+        { "h": "Budování každodenního návyku", "p": "I několik minut denně vytváří hybnou sílu. Zkus sedět v klidu každý den ve stejnou dobu, pomalu dýchat a nechávat každou větu přirozeně vyvstávat. V průběhu týdnů mnoho praktikujících zaznamenává zmírnění starých křivd, lehčí náladu a pocit vnitřního prostoru." }
+      ],
+      "close": "Zavřít"
+    },
+    "fr": {
+      "title": "Ho'oponopono",
+      "tagline": "Une ancienne pratique hawaïenne de réconciliation et de pardon",
+      "sections": [
+        { "h": "Qu'est-ce que le Ho'oponopono ?", "p": "Le Ho'oponopono est une pratique spirituelle hawaïenne qui signifie 'rétablir l'équilibre'. Fondée sur la conviction que chacun d'entre nous est responsable de tout ce qui se passe dans sa réalité, elle utilise quatre phrases simples pour effacer de vieilles mémoires, dissoudre des schémas douloureux et restaurer l'harmonie entre soi et le monde." },
+        { "h": "Pourquoi pratiquer avec le monde ?", "p": "Ce site synchronise chaque visiteur sur la même phrase au même moment, partout dans le monde. Lorsque de nombreuses personnes partagent la même intention simultanément, la pratique passe d'un rituel privé à un champ de guérison collectif. Vous ne pratiquez jamais seul(e)." },
+        { "h": "Les quatre phrases", "p": "Je suis désolé(e) — reconnaissez que quelque chose en vous a peut-être créé ou attiré cela. S'il te plaît, pardonne-moi — demandez une libération, sans avoir besoin de savoir quoi ou qui pardonner. Merci — exprimez de la gratitude à l'univers, à la vie, à l'inconnu. Je t'aime — dirigez un amour inconditionnel vers la source de toutes choses." },
+        { "h": "Créer une habitude quotidienne", "p": "Même quelques minutes par jour créent un élan. Essayez de vous asseoir tranquillement à la même heure chaque jour, de respirer lentement et de laisser chaque phrase émerger naturellement. Au fil des semaines, de nombreux pratiquants remarquent un assouplissement des vieilles rancœurs, des humeurs plus légères et un sentiment d'espace intérieur." }
+      ],
+      "close": "Fermer"
+    },
+    "ja": {
+      "title": "ホ・オポノポノ",
+      "tagline": "ハワイ古来の和解と許しの実践",
+      "sections": [
+        { "h": "ホ・オポノポノとは？", "p": "ホ・オポノポノは「正しくする」を意味するハワイの精神的な実践です。私たちそれぞれが自分の現実のすべてに責任を持つという信念に基づき、4つのシンプルなフレーズを使って古い記憶を浄化し、痛みのパターンを解消し、自分自身と世界との調和を取り戻します。" },
+        { "h": "なぜ世界と共に実践するのか？", "p": "このサイトは、世界中のすべての訪問者を同じ瞬間に同じフレーズに同期させています。多くの人が同時に同じ意図を持つとき、実践はプライベートな儀式から共有された癒しの場へと変わります。あなたは決して一人で実践しているのではありません。" },
+        { "h": "4つのフレーズ", "p": "ごめんなさい — あなたの中の何かがこれを生み出したり引き寄せたりしたかもしれないと認めます。許してください — 何を、誰を許すかを知らなくても、解放を求めます。ありがとう — 宇宙、命、未知なるものへの感謝を表します。愛しています — すべての源に無条件の愛を向けます。" },
+        { "h": "日課にするために", "p": "毎日数分でも続けることで、流れが生まれます。毎日同じ時間に静かに座り、ゆっくりと呼吸し、各フレーズが自然に浮かび上がるままにしてみてください。数週間で、多くの実践者が古い恨みの和らぎ、気分の軽さ、内なる余裕を感じるようになります。" }
+      ],
+      "close": "閉じる"
+    },
+    "zh": {
+      "title": "荷欧波诺波诺",
+      "tagline": "来自夏威夷的古老和解与宽恕之道",
+      "sections": [
+        { "h": "什么是荷欧波诺波诺？", "p": "荷欧波诺波诺是夏威夷的一种精神修炼，意为「纠正」。它根植于每个人都对自己现实中的一切负有责任的信念，通过四句简单的话语帮助清除旧有记忆、消解痛苦模式，并恢复自我与世界之间的和谐。" },
+        { "h": "为什么要与世界同步练习？", "p": "本网站将每位访客在同一时刻同步到同一句话，遍及全球。当许多人同时持有同一意图，这种修炼便从私人仪式转变为共同的疗愈场域。你从不是独自在练习。" },
+        { "h": "四句话", "p": "对不起——承认你内心的某些部分可能创造或吸引了这一切。请原谅我——请求释放，无需知道要原谅什么或谁。谢谢——向宇宙、生命、未知表达感谢。我爱你——将无条件的爱指向一切的源头。" },
+        { "h": "建立每日习惯", "p": "哪怕每天几分钟，也能积累动力。试着每天在同一时间静静地坐下，缓慢呼吸，让每句话自然升起。数周后，许多修炼者会感到旧日怨恨有所软化，心情变得轻盈，内心空间更为宽广。" }
+      ],
+      "close": "关闭"
+    },
+    "id": {
+      "title": "Ho'oponopono",
+      "tagline": "Praktik kuno Hawaii tentang rekonsiliasi dan pengampunan",
+      "sections": [
+        { "h": "Apa itu Ho'oponopono?", "p": "Ho'oponopono adalah praktik spiritual Hawaii yang berarti 'memperbaiki'. Berakar pada keyakinan bahwa kita masing-masing bertanggung jawab atas segala sesuatu dalam realitas kita, praktik ini menggunakan empat kalimat sederhana untuk membersihkan memori lama, melarutkan pola yang menyakitkan, dan memulihkan keselarasan antara diri sendiri dan dunia." },
+        { "h": "Mengapa berlatih bersama dunia?", "p": "Situs ini menyinkronkan setiap pengunjung ke kalimat yang sama pada saat yang sama, di seluruh dunia. Ketika banyak orang memegang niat yang sama secara bersamaan, praktik ini berubah dari ritual pribadi menjadi medan penyembuhan bersama. Kamu tidak pernah berlatih sendirian." },
+        { "h": "Empat kalimat", "p": "Maaf — akui bahwa sesuatu dalam dirimu mungkin telah menciptakan atau menarik ini. Tolong maafkan saya — minta pelepasan, tanpa perlu tahu apa atau siapa yang harus dimaafkan. Terima kasih — ungkapkan rasa syukur kepada alam semesta, kehidupan, dan yang tidak diketahui. Aku cinta kamu — arahkan cinta tanpa syarat ke sumber segala sesuatu." },
+        { "h": "Membangun kebiasaan harian", "p": "Bahkan beberapa menit sehari menciptakan momentum. Coba duduk diam pada waktu yang sama setiap hari, bernapas perlahan, dan biarkan setiap kalimat muncul secara alami. Selama beberapa minggu, banyak praktisi merasakan pelunakan kebencian lama, suasana hati yang lebih ringan, dan rasa luas di dalam diri." }
+      ],
+      "close": "Tutup"
+    },
+    "ms": {
+      "title": "Ho'oponopono",
+      "tagline": "Amalan purba Hawaii tentang perdamaian dan kemaafan",
+      "sections": [
+        { "h": "Apakah Ho'oponopono?", "p": "Ho'oponopono ialah amalan rohani Hawaii yang bermaksud 'membetulkan'. Berakar pada kepercayaan bahawa setiap daripada kita bertanggungjawab atas segala-galanya dalam realiti kita, ia menggunakan empat frasa mudah untuk membersihkan kenangan lama, melarutkan corak yang menyakitkan, dan memulihkan keharmonian antara diri sendiri dan dunia." },
+        { "h": "Mengapa berlatih bersama dunia?", "p": "Laman web ini menyegerakkan setiap pengunjung ke frasa yang sama pada masa yang sama, di seluruh dunia. Apabila ramai orang memegang niat yang sama secara serentak, amalan ini berubah daripada ritual peribadi kepada medan penyembuhan bersama. Anda tidak pernah berlatih bersendirian." },
+        { "h": "Empat frasa", "p": "Maaf — akui bahawa sesuatu dalam diri anda mungkin telah mencipta atau menarik ini. Tolong maafkan saya — minta pembebasan, tanpa perlu tahu apa atau siapa yang perlu dimaafkan. Terima kasih — luahkan rasa syukur kepada alam semesta, kehidupan, kepada yang tidak diketahui. Saya cinta padamu — arahkan cinta tanpa syarat kepada sumber segala sesuatu." },
+        { "h": "Membina tabiat harian", "p": "Walaupun beberapa minit sehari mencipta momentum. Cuba duduk diam pada masa yang sama setiap hari, bernafas perlahan-lahan, dan biarkan setiap frasa timbul secara semula jadi. Dalam beberapa minggu, ramai pengamal melihat kelunakan dendam lama, suasana hati yang lebih ringan, dan rasa ruang di dalam diri." }
+      ],
+      "close": "Tutup"
+    },
+    "ar": {
+      "title": "هو'أوبونوبونو",
+      "tagline": "ممارسة هاوايية قديمة للمصالحة والمغفرة",
+      "sections": [
+        { "h": "ما هو هو'أوبونوبونو؟", "p": "هو'أوبونوبونو ممارسة روحية هاوايية تعني 'التصحيح'. تقوم على الاعتقاد بأن كل منا مسؤول عن كل شيء في واقعه. تستخدم أربع عبارات بسيطة لتنقية الذكريات القديمة، وحل الأنماط المؤلمة، واستعادة الانسجام بين النفس والعالم." },
+        { "h": "لماذا نمارس مع العالم؟", "p": "يزامن هذا الموقع كل زائر مع نفس العبارة في نفس اللحظة في جميع أنحاء العالم. حين يحمل كثير من الناس النية ذاتها في آنٍ واحد، تتحول الممارسة من طقس شخصي إلى حقل مشترك من الشفاء. أنت لا تمارس وحدك أبدًا." },
+        { "h": "العبارات الأربع", "p": "آسف — اعترف بأن شيئًا في داخلك ربما خلق هذا أو جذبه. سامحني من فضلك — اطلب التحرر دون الحاجة إلى معرفة ما تغفره أو من تغفر. شكرًا — عبّر عن الامتنان للكون والحياة والمجهول. أنا أحبك — وجّه الحب غير المشروط نحو مصدر كل شيء." },
+        { "h": "بناء عادة يومية", "p": "حتى بضع دقائق يوميًا تخلق زخمًا. حاول الجلوس بهدوء في نفس الوقت كل يوم، والتنفس ببطء، والسماح لكل عبارة بالظهور بشكل طبيعي. خلال أسابيع، يلاحظ كثير من الممارسين انحسار الاستياء القديم، وخفة المزاج، وإحساسًا بالفسحة الداخلية." }
+      ],
+      "close": "إغلاق"
+    }
+  },
   "labels": {
     "en": {
       "online": "Online",

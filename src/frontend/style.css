@@ -212,3 +212,138 @@ body {
         font-size: 4.5em;
     }
 }
+
+/* --- Info button --- */
+.info-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    z-index: 50;
+}
+
+.info-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* --- Info modal overlay --- */
+.info-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.info-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.info-modal {
+    background: rgba(20, 20, 30, 0.92);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 560px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.info-modal-title {
+    font-size: 1.4em;
+    font-weight: 400;
+    color: white;
+    margin: 0 0 6px;
+}
+
+.info-modal-tagline {
+    font-size: 0.85em;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0 0 24px;
+}
+
+.info-modal-section {
+    margin-bottom: 18px;
+}
+
+.info-modal-section h3 {
+    font-size: 0.82em;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.info-modal-section p {
+    font-size: 0.9em;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.65);
+    margin: 0;
+}
+
+.info-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.info-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* RTL (Arabic) */
+.info-modal[dir="rtl"] {
+    text-align: right;
+}
+
+.info-modal[dir="rtl"] .info-modal-close {
+    right: auto;
+    left: 16px;
+}
+
+.info-modal::-webkit-scrollbar { width: 4px; }
+.info-modal::-webkit-scrollbar-track { background: transparent; }
+.info-modal::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+@media (max-width: 600px) {
+    .info-modal { padding: 24px; }
+    .info-modal-title { font-size: 1.15em; }
+}

@@ -3,8 +3,28 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>ho'oponopono</title>
-        <link rel="stylesheet" href="style.css?v=5" />
+        <title>Ho'oponopono — Global Synchronous Meditation</title>
+        <link rel="stylesheet" href="style.css?v=6" />
+        <meta name="description" content="Practice Ho'oponopono — the Hawaiian healing mantra — in real time with thousands of people worldwide. I'm sorry. Please forgive me. Thank you. I love you." />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://hooponopono.online/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://hooponopono.online/" />
+        <meta property="og:title" content="Ho'oponopono — Live Synchronized Meditation" />
+        <meta property="og:description" content="Practice Ho'oponopono with people around the world, right now. I'm sorry. Please forgive me. Thank you. I love you." />
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "Ho'oponopono",
+          "url": "https://hooponopono.online/",
+          "description": "Practice Ho'oponopono — the Hawaiian forgiveness mantra — in real time, synchronized with people around the world.",
+          "applicationCategory": "HealthApplication",
+          "operatingSystem": "All",
+          "inLanguage": ["en","ru","es","pt","de","cs","fr","ja","zh","id","ms","ar"],
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+        }
+        </script>
     </head>
     <body>
         <div class="language-selector">
@@ -46,6 +66,33 @@
                 </svg>
                 Add to Chrome
             </a>
+        </div>
+
+        <button id="infoButton" class="info-button" aria-label="About Ho'oponopono">i</button>
+
+        <div id="infoOverlay" class="info-overlay" role="dialog" aria-modal="true"
+             aria-labelledby="infoModalTitle" aria-hidden="true">
+          <article id="infoModal" class="info-modal" tabindex="-1">
+            <button id="infoModalCloseBtn" class="info-modal-close" aria-label="Close">&#x2715;</button>
+            <h2 id="infoModalTitle" class="info-modal-title">Ho'oponopono</h2>
+            <p id="infoModalTagline" class="info-modal-tagline">An ancient Hawaiian practice of reconciliation and forgiveness</p>
+            <div class="info-modal-section">
+              <h3 id="infoSectionH0">What is Ho'oponopono?</h3>
+              <p id="infoSectionP0">Ho'oponopono is a Hawaiian spiritual practice meaning 'to make right.' Rooted in the belief that we are each responsible for everything in our reality, it uses four simple phrases to clear old memories, dissolve painful patterns, and restore harmony between yourself and the world.</p>
+            </div>
+            <div class="info-modal-section">
+              <h3 id="infoSectionH1">Why practice with the world?</h3>
+              <p id="infoSectionP1">This site synchronizes every visitor to the same phrase at the same moment, worldwide. When many people hold the same intention simultaneously, the practice moves from a private ritual to a shared field of healing. You are never practicing alone.</p>
+            </div>
+            <div class="info-modal-section">
+              <h3 id="infoSectionH2">The four phrases</h3>
+              <p id="infoSectionP2">I'm sorry — acknowledge that something in you may have created or attracted this. Please forgive me — ask for release, without needing to know what or who to forgive. Thank you — express gratitude to the universe, to life, to the unknown. I love you — direct unconditional love at the source of all things.</p>
+            </div>
+            <div class="info-modal-section">
+              <h3 id="infoSectionH3">Building a daily habit</h3>
+              <p id="infoSectionP3">Even a few minutes daily creates momentum. Try sitting quietly at the same time each day, breathing slowly, and letting each phrase arise naturally. Over weeks, many practitioners notice a softening of old resentments, lighter moods, and a sense of inner spaciousness.</p>
+            </div>
+          </article>
         </div>
 
         <script src="script.js"></script>

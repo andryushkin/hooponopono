@@ -9,8 +9,21 @@ interface LabelSet {
   error: string;
 }
 
+interface InfoSection {
+  h: string;
+  p: string;
+}
+
+interface InfoContent {
+  title: string;
+  tagline: string;
+  sections: InfoSection[];
+  close: string;
+}
+
 const PHRASES = phraseData.phrases as Record<LangCode, string[]>;
 const LABELS = phraseData.labels as Record<LangCode, LabelSet>;
+const INFO = phraseData.info as Record<LangCode, InfoContent>;
 
 const START_TIMESTAMP: number = phraseData.startTimestamp;
 const PHRASE_DURATION: number = phraseData.phraseDuration;
@@ -57,6 +70,7 @@ let currentAudio: HTMLAudioElement | null = null;
 let audioLoaded = false;
 let reconnectAttempt = 0;
 let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+let isModalOpen = false;
 
 const WS_URL = isExtension
   ? 'wss://hooponopono.online/ws'
@@ -157,6 +171,49 @@ function setLanguage(lang: LangCode): void {
 
   updateOnlineCount();
   updateMuteButtonVisibility();
+  if (isModalOpen) updateModalContent(lang);
+}
+
+// --- Info modal ---
+
+function updateModalContent(lang: LangCode): void {
+  const info = INFO[lang] ?? INFO['en'];
+  if (!info) return;
+  const modal = document.getElementById('infoModal');
+  if (!modal) return;
+  modal.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  const set = (id: string, text: string) => {
+    const e = document.getElementById(id);
+    if (e) e.textContent = text;
+  };
+  set('infoModalTitle', info.title);
+  set('infoModalTagline', info.tagline);
+  const closeBtn = document.getElementById('infoModalCloseBtn');
+  if (closeBtn) closeBtn.setAttribute('aria-label', info.close);
+  for (let i = 0; i < 4; i++) {
+    const s = info.sections[i];
+    if (!s) continue;
+    set(`infoSectionH${i}`, s.h);
+    set(`infoSectionP${i}`, s.p);
+  }
+}
+
+function openModal(): void {
+  isModalOpen = true;
+  updateModalContent(currentLang);
+  const overlay = document.getElementById('infoOverlay');
+  if (!overlay) return;
+  overlay.classList.add('open');
+  overlay.setAttribute('aria-hidden', 'false');
+  (document.getElementById('infoModal') as HTMLElement | null)?.focus();
+}
+
+function closeModal(): void {
+  isModalOpen = false;
+  const overlay = document.getElementById('infoOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('open');
+  overlay.setAttribute('aria-hidden', 'true');
 }
 
 // --- WebSocket with exponential backoff ---
@@ -261,6 +318,16 @@ function init(): void {
 
   document.addEventListener('click', () => {
     languageMenu?.classList.remove('show');
+  });
+
+  // Info modal
+  document.getElementById('infoButton')?.addEventListener('click', openModal);
+  document.getElementById('infoOverlay')?.addEventListener('click', (e) => {
+    if (e.target === document.getElementById('infoOverlay')) closeModal();
+  });
+  document.getElementById('infoModalCloseBtn')?.addEventListener('click', closeModal);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isModalOpen) closeModal();
   });
 
   const onlineEl = document.getElementById('online');
