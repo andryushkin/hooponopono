@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "ho'oponopono",
+  "version": "1.0.0",
+  "description": "Медитация Ho'oponopono — синхронная практика исцеления",
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "permissions": ["storage"],
+  "host_permissions": [
+    "wss://hooponopono.online/*"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

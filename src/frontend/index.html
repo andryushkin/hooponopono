@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ho'oponopono</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="language-selector">
+            <div class="language-dropdown">
+                <button class="language-button" id="languageButton">EN</button>
+                <div class="language-menu" id="languageMenu">
+                    <div class="language-option" data-lang="en">EN - English</div>
+                    <div class="language-option" data-lang="ru">RU - Русский</div>
+                    <div class="language-option" data-lang="es">ES - Español</div>
+                    <div class="language-option" data-lang="pt">PT - Português</div>
+                    <div class="language-option" data-lang="de">DE - Deutsch</div>
+                    <div class="language-option" data-lang="cs">CS - Čeština</div>
+                    <div class="language-option" data-lang="fr">FR - Français</div>
+                    <div class="language-option" data-lang="ja">JA - 日本語</div>
+                    <div class="language-option" data-lang="zh">ZH - 中文</div>
+                    <div class="language-option" data-lang="id">ID - Indonesia</div>
+                    <div class="language-option" data-lang="ms">MS - Melayu</div>
+                    <div class="language-option" data-lang="ar">AR - العربية</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="phrase-container">
+                <div id="phrase" class="phrase"></div>
+            </div>
+
+            <div class="controls-container">
+                <button id="muteButton" class="mute-button">🔊</button>
+            </div>
+
+            <div class="online-container">
+                <div id="online" class="online">Connecting...</div>
+            </div>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>

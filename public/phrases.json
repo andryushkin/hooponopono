@@ -1,0 +1,93 @@
+{
+  "startTimestamp": 1640995200,
+  "phraseDuration": 2,
+  "cycleDuration": 8,
+  "phrases": {
+    "en": ["I'm sorry", "Please forgive me", "Thank you", "I love you"],
+    "ru": ["Мне очень жаль", "Пожалуйста, прости меня", "Благодарю", "Я люблю тебя"],
+    "es": ["Lo siento", "Por favor, perdóname", "Gracias", "Te amo"],
+    "pt": ["Desculpe", "Por favor, me perdoe", "Obrigado(a)", "Eu te amo"],
+    "de": ["Es tut mir leid", "Bitte vergib mir", "Danke", "Ich liebe dich"],
+    "cs": ["Promiň", "Prosím, odpusť mi", "Děkuji", "Miluji tě"],
+    "fr": ["Je suis désolé(e)", "S'il te plaît, pardonne-moi", "Merci", "Je t'aime"],
+    "ja": ["ごめんなさい", "許してください", "ありがとう", "愛しています"],
+    "zh": ["对不起", "请原谅我", "谢谢", "我爱你"],
+    "id": ["Maaf", "Tolong maafkan saya", "Terima kasih", "Aku cinta kamu"],
+    "ms": ["Maaf", "Tolong maafkan saya", "Terima kasih", "Saya cinta padamu"],
+    "ar": ["آسف", "سامحني من فضلك", "شكراً", "أنا أحبك"]
+  },
+  "labels": {
+    "en": {
+      "online": "Online",
+      "connecting": "Connecting...",
+      "reconnecting": "Reconnecting...",
+      "error": "Connection error"
+    },
+    "ru": {
+      "online": "Онлайн",
+      "connecting": "Подключение...",
+      "reconnecting": "Переподключение...",
+      "error": "Ошибка соединения"
+    },
+    "es": {
+      "online": "En línea",
+      "connecting": "Conectando...",
+      "reconnecting": "Reconectando...",
+      "error": "Error de conexión"
+    },
+    "pt": {
+      "online": "Online",
+      "connecting": "Conectando...",
+      "reconnecting": "Reconectando...",
+      "error": "Erro de conexão"
+    },
+    "de": {
+      "online": "Online",
+      "connecting": "Verbinden...",
+      "reconnecting": "Wiederverbinden...",
+      "error": "Verbindungsfehler"
+    },
+    "cs": {
+      "online": "Online",
+      "connecting": "Připojování...",
+      "reconnecting": "Znovu připojování...",
+      "error": "Chyba připojení"
+    },
+    "fr": {
+      "online": "En ligne",
+      "connecting": "Connexion...",
+      "reconnecting": "Reconnexion...",
+      "error": "Erreur de connexion"
+    },
+    "ja": {
+      "online": "オンライン",
+      "connecting": "接続中...",
+      "reconnecting": "再接続中...",
+      "error": "接続エラー"
+    },
+    "zh": {
+      "online": "在线",
+      "connecting": "连接中...",
+      "reconnecting": "重新连接...",
+      "error": "连接错误"
+    },
+    "id": {
+      "online": "Online",
+      "connecting": "Menghubungkan...",
+      "reconnecting": "Menghubungkan ulang...",
+      "error": "Kesalahan koneksi"
+    },
+    "ms": {
+      "online": "Dalam talian",
+      "connecting": "Menyambung...",
+      "reconnecting": "Menyambung semula...",
+      "error": "Ralat sambungan"
+    },
+    "ar": {
+      "online": "متصل",
+      "connecting": "جاري الاتصال...",
+      "reconnecting": "إعادة الاتصال...",
+      "error": "خطأ في الاتصال"
+    }
+  }
+}

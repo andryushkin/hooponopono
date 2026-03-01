@@ -4,29 +4,31 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Migration of the hooponopono meditation site to **Cloudflare Pages + Durable Objects**, rewritten in TypeScript with Bun as runtime/package manager. The target project lives at `~/Projects/hooponopono-cf/`. See `plan_hooponopono_new.md` for full migration plan.
+Hooponopono meditation site on **Cloudflare Pages + Durable Objects**, TypeScript + Bun.
+Migration from DigitalOcean (Python WebSocket server) is complete. Old code at `../hooponopono_old/`.
 
-**Functionality to preserve:**
-- Phrase synchronization (client-side, computed from unix timestamp — no server timer)
-- Online counter = base 30–49 + real WebSocket connections
-- 12 languages, audio for EN only
-- Short link service at `/link/[id]`
+**Features:**
+- Phrase synchronization — client-side, computed from unix timestamp (no server timer)
+- Online counter — real WebSocket connections only (0 when nobody online)
+- 12 languages, audio for EN only (sounds/hooponopono_en.m4a)
+- Chrome Extension (MV3, newtab override)
 
 ## Stack
 
 - **Runtime/package manager:** Bun
 - **Hosting:** Cloudflare Pages (static) + Durable Objects (WebSocket, online counter)
-- **Short links:** Cloudflare KV
-- **TypeScript** throughout (`@cloudflare/workers-types`)
+- **TypeScript** throughout
 
 ## Key Commands
 
 ```bash
-bun run build          # Build frontend + dry-run worker deploy
-bun run build:frontend # bun build script.ts → dist/ + copy HTML/CSS/sounds
-bun run dev            # wrangler pages dev dist (local, with DO)
-bun run deploy         # build frontend + wrangler pages deploy
-bun x tsc --noEmit     # type-check only
+bun run build          # Build everything: frontend + worker (_worker.js) + extension
+bun run build:frontend # dist/ — HTML/CSS/JS/sounds/phrases.json
+bun run build:worker   # dist/_worker.js — Pages worker bundle (ESM)
+bun run build:ext      # extension/dist/ — Chrome Extension bundle
+bun run dev            # build + wrangler pages dev dist (local, with DO)
+bun run deploy         # build:frontend + build:worker + wrangler pages deploy
+bun run type-check     # tsc --noEmit for BOTH tsconfigs (worker + frontend)
 ```
 
 ## Architecture
@@ -34,42 +36,67 @@ bun x tsc --noEmit     # type-check only
 ```
 src/
   frontend/
-    script.ts        # Client logic: phrase sync (timer-based), WebSocket for online_count only
-    index.html
-    style.css
+    script.ts        # Phrase sync (setInterval 200ms), WebSocket (online_count only)
+    index.html       # No modal, no StatCounter
+    style.css        # No modal CSS
+    newtab.html      # Chrome Extension newtab
+    tsconfig.json    # lib: ["DOM"], resolveJsonModule: true — NO workers-types
   worker/
-    index.ts         # Worker entry: routes /ws to HoopRoom DO
-    hoop-room.ts     # Durable Object: WebSocket Hibernation API, broadcasts online count
-functions/
-  link/[id].ts       # Pages Function: KV lookup → 301 redirect
-public/sounds/       # hooponopono_en.m4a
-dist/                # Build output (gitignored)
-wrangler.toml
+    index.ts         # Pages worker: /ws → HoopRoom DO, else → ASSETS.fetch
+    hoop-room.ts     # Durable Object: Hibernation API, broadcasts online count
+    tsconfig.json    # types: ["@cloudflare/workers-types"] — NO DOM lib
+public/
+  phrases.json       # Single source of truth: phrases, labels, timing constants
+  sounds/            # hooponopono_en.m4a
+  _redirects         # www → apex 301 (Cloudflare only, warning locally — expected)
+  _headers           # CORS for phrases.json
+extension/
+  manifest.json      # MV3, host_permissions: wss://hooponopono.online/*
+  icons/             # User must add icon16.png, icon48.png, icon128.png manually
+dist/                # gitignored — includes _worker.js (Pages Functions entry)
+extension/dist/      # gitignored
+wrangler.toml        # pages_build_output_dir = "dist", HoopRoom DO binding
 ```
+
+## Critical: Two tsconfigs Required
+
+`@cloudflare/workers-types` conflicts with DOM types. **Never merge into one tsconfig.**
+- `src/worker/tsconfig.json` — Workers types only, no DOM
+- `src/frontend/tsconfig.json` — DOM + resolveJsonModule, no Workers types
+- Root `tsconfig.json` — IDE only (no types restriction)
+
+Type-check runs both: `bun run type-check`
+
+## Critical: build:worker Uses bun build, Not wrangler
+
+`wrangler deploy --dry-run` does NOT exist for Pages. Worker is bundled via:
+```bash
+bun build src/worker/index.ts --outfile dist/_worker.js --format esm --minify
+```
+wrangler reads `dist/_worker.js` as the Pages Functions entry automatically.
 
 ## Phrase Synchronization
 
-Phrases cycle client-side using a fixed unix timestamp anchor (`START_TIMESTAMP = 1640995200`), 2 seconds per phrase, 8-second cycle. WebSocket is used **only** for `online_count` messages — no server-pushed phrase updates.
+Constants live in `public/phrases.json` (imported by script.ts via bun):
+- `START_TIMESTAMP = 1640995200`, `PHRASE_DURATION = 2`, `CYCLE_DURATION = 8`
+- `index = Math.floor((elapsed % 8) / 2)` — deterministic, NTP-synced clocks
 
 ## Durable Object: HoopRoom
 
-- Uses **Hibernation API** (`state.acceptWebSocket()`) — DO sleeps between events, supports up to 32 768 connections
-- `BASE_COUNT` (30–49) is randomized once at DO instantiation
-- Broadcasts count on every connect/disconnect: `{ type: "online_count", count: BASE_COUNT + activeConnections }`
-- Single global instance: `env.HOOP_ROOM.idFromName('global')`
+- **Hibernation API** (`state.acceptWebSocket()`) — DO sleeps between events
+- `webSocketMessage` must be implemented (even empty) — required by workers-types
+- Broadcasts `{ type: "online_count", count }` on every connect/disconnect
+- `env.ASSETS` typed as `(env as unknown as { ASSETS: Fetcher }).ASSETS`
 
-## KV Short Links
+## WebSocket Reconnect: Exponential Backoff
 
-Keys are link IDs, values are JSON `{ "url": "..." }`. Load via:
-```bash
-bunx wrangler kv:key put --binding=LINKS "link-id" '{"url":"https://..."}'
+```typescript
+const delay = Math.min(1000 * 2 ** reconnectAttempt, 30_000); // 1s→2s→4s→…→30s
 ```
+Old `setInterval` pattern created parallel connections — do NOT use it.
 
-## Source Files to Port
+## Chrome Extension
 
-| Target file | Source |
-|---|---|
-| `src/frontend/script.ts` | Rewrite from `../hooponopono/public/script.js` |
-| `src/frontend/index.html` | Copy from `../hooponopono/public/index.html` |
-| `src/frontend/style.css` | Copy from `../hooponopono/public/style.css` |
-| `public/sounds/` | Copy from `../hooponopono/public/sounds/` |
+- WS_URL hardcoded to `wss://hooponopono.online/ws` (not `pages.dev` — unstable)
+- `isExtension` check via `globalThis['chrome']?.runtime` (no @types/chrome needed)
+- icons/ must be populated before publishing to Chrome Web Store

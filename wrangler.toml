@@ -1,0 +1,11 @@
+name = "hooponopono"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-01-01"
+
+[[durable_objects.bindings]]
+name = "HOOP_ROOM"
+class_name = "HoopRoom"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["HoopRoom"]
