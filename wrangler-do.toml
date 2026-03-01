@@ -1,0 +1,7 @@
+name = "hooponopono-do"
+main = "src/worker/do-entry.ts"
+compatibility_date = "2024-01-01"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["HoopRoom"]

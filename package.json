@@ -8,7 +8,8 @@
     "build:ext": "mkdir -p extension/dist/sounds extension/dist/icons && bun build src/frontend/script.ts --outfile extension/dist/script.js --target browser --minify && cp src/frontend/newtab.html extension/dist/ && cp src/frontend/style.css extension/dist/ && cp -r public/sounds/. extension/dist/sounds/ && cp public/phrases.json extension/dist/ && cp extension/manifest.json extension/dist/ && cp -r extension/icons/. extension/dist/icons/ 2>/dev/null || true",
     "build": "bun run build:frontend && bun run build:worker && bun run build:ext",
     "dev": "bun run build && bunx wrangler pages dev dist",
-    "deploy": "bun run build:frontend && bun run build:worker && bunx wrangler pages deploy dist --project-name hooponopono",
+    "deploy:do": "bunx wrangler deploy --config wrangler-do.toml",
+    "deploy": "bun run build:frontend && bun run build:worker && bun run deploy:do && bunx wrangler pages deploy dist --project-name hooponopono --commit-dirty=true",
     "type-check": "bun x tsc --noEmit -p src/worker/tsconfig.json && bun x tsc --noEmit -p src/frontend/tsconfig.json"
   },
   "devDependencies": {
