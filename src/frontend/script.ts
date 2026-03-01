@@ -11,6 +11,7 @@ interface LabelSet {
 
 const PHRASES = phraseData.phrases as Record<LangCode, string[]>;
 const LABELS = phraseData.labels as Record<LangCode, LabelSet>;
+
 const START_TIMESTAMP: number = phraseData.startTimestamp;
 const PHRASE_DURATION: number = phraseData.phraseDuration;
 const CYCLE_DURATION: number = phraseData.cycleDuration;
@@ -145,6 +146,11 @@ function setLanguage(lang: LangCode): void {
     currentAudio.pause();
     currentAudio = null;
     audioLoaded = false;
+    // Сброс состояния звука: при возврате на EN пользователь сам включит
+    isMuted = true;
+    localStorage.setItem('hooponopono-muted', 'true');
+    const btn = document.getElementById('muteButton');
+    if (btn) btn.textContent = '🔇';
   }
 
   if (lang === 'en') initAudio();

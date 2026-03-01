@@ -6,7 +6,9 @@
 
 body {
     font-family: "Arial", sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(-45deg, #667eea, #764ba2, #5a67d8, #6b46c1);
+    background-size: 400% 400%;
+    animation: gradientFlow 20s ease infinite;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -51,11 +53,12 @@ body {
     position: absolute;
     top: 100%;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(20, 20, 30, 0.85);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 8px;
     min-width: 180px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -71,7 +74,7 @@ body {
 
 .language-option {
     padding: 12px 16px;
-    color: #333;
+    color: rgba(255, 255, 255, 0.85);
     cursor: pointer;
     transition: background 0.2s ease;
     font-size: 14px;
@@ -86,7 +89,7 @@ body {
 }
 
 .language-option:hover {
-    background: rgba(102, 126, 234, 0.1);
+    background: rgba(255, 255, 255, 0.12);
 }
 
 .container {
@@ -141,27 +144,52 @@ body {
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.btn-cws {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     white-space: nowrap;
-}
-
-.cws-link {
-    color: rgba(255, 255, 255, 0.6);
     text-decoration: none;
-    font-size: 13px;
-    transition: color 0.2s ease;
+    transition: background 0.2s ease;
+    backdrop-filter: blur(10px);
 }
 
-.cws-link:hover {
-    color: white;
+.btn-cws:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.btn-cws svg {
+    flex-shrink: 0;
 }
 
 .online {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.65);
+    padding: 4px 0;
+}
+
+.online::before {
+    content: '👥';
+    font-size: 13px;
+    line-height: 1;
+}
+
+@keyframes gradientFlow {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 @media (max-width: 768px) {

@@ -89,6 +89,12 @@ Constants live in `public/phrases.json` (imported by script.ts via bun):
 - Broadcasts `{ type: "online_count", count }` on every connect/disconnect
 - `env.ASSETS` typed as `(env as unknown as { ASSETS: Fetcher }).ASSETS`
 
+## Audio: EN-only, State Reset on Language Switch
+
+- Audio is EN-only. `isMuted` persists in memory and localStorage.
+- **Critical:** when switching away from EN, `isMuted` must be reset to `true` — otherwise returning to EN auto-plays audio without user action.
+- In `setLanguage()`: the `if (currentAudio && lang !== 'en')` block sets `isMuted = true`, saves to localStorage, and updates the mute button to 🔇.
+
 ## WebSocket Reconnect: Exponential Backoff
 
 ```typescript
