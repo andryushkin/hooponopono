@@ -96,6 +96,13 @@ const delay = Math.min(1000 * 2 ** reconnectAttempt, 30_000); // 1s→2s→4s→
 ```
 Old `setInterval` pattern created parallel connections — do NOT use it.
 
+## UI Layout
+
+- **Online counter** (`#online`) is inside `.language-selector` (flex column, align-items: flex-end) — flows as third item after language-dropdown and muteButton
+- **CWS link** in `index.html`: `.cws-link-container` (position fixed, bottom center), plain text `<a>` — no image badge
+- `newtab.html` does NOT have a CWS link
+- **Cache-busting:** `style.css?v=N` — increment `N` whenever CSS changes to bypass Chrome/Cloudflare cache
+
 ## Chrome Extension
 
 - **Does NOT override newtab** — meditation opens only on toolbar icon click

@@ -16,11 +16,22 @@ const PHRASE_DURATION: number = phraseData.phraseDuration;
 const CYCLE_DURATION: number = phraseData.cycleDuration;
 const SUPPORTED_LANGS = Object.keys(PHRASES) as LangCode[];
 
+// --- Extension detection ---
+
+const isExtension =
+  typeof (globalThis as Record<string, unknown>)['chrome'] !== 'undefined' &&
+  !!(
+    (globalThis as Record<string, unknown>)['chrome'] as Record<string, unknown>
+  )['runtime'];
+
 // --- Language detection ---
 
 function detectLanguage(): LangCode {
   const saved = localStorage.getItem('hooponopono-lang') as LangCode | null;
   if (saved && SUPPORTED_LANGS.includes(saved)) return saved;
+
+  // В контексте расширения — всегда English по умолчанию
+  if (isExtension) return 'en';
 
   const candidates = navigator.languages?.length
     ? [...navigator.languages]
@@ -36,7 +47,8 @@ function detectLanguage(): LangCode {
 // --- State ---
 
 let currentLang: LangCode = detectLanguage();
-let isMuted = localStorage.getItem('hooponopono-muted') === 'true';
+const savedMuted = localStorage.getItem('hooponopono-muted');
+let isMuted = savedMuted === null ? true : savedMuted === 'true';
 let ws: WebSocket | null = null;
 let currentOnlineCount = 0;
 let lastPhraseIndex = -1;
@@ -44,14 +56,6 @@ let currentAudio: HTMLAudioElement | null = null;
 let audioLoaded = false;
 let reconnectAttempt = 0;
 let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
-
-// --- WS URL ---
-
-const isExtension =
-  typeof (globalThis as Record<string, unknown>)['chrome'] !== 'undefined' &&
-  !!(
-    (globalThis as Record<string, unknown>)['chrome'] as Record<string, unknown>
-  )['runtime'];
 
 const WS_URL = isExtension
   ? 'wss://hooponopono.online/ws'
@@ -121,6 +125,16 @@ function toggleMute(): void {
   }
 }
 
+function updateMuteButtonVisibility(): void {
+  const btn = document.getElementById('muteButton');
+  if (!btn) return;
+  if (currentLang === 'en') {
+    btn.classList.remove('hidden');
+  } else {
+    btn.classList.add('hidden');
+  }
+}
+
 function setLanguage(lang: LangCode): void {
   currentLang = lang;
   localStorage.setItem('hooponopono-lang', lang);
@@ -136,6 +150,7 @@ function setLanguage(lang: LangCode): void {
   if (lang === 'en') initAudio();
 
   updateOnlineCount();
+  updateMuteButtonVisibility();
 }
 
 // --- WebSocket with exponential backoff ---
@@ -211,6 +226,7 @@ function updatePhrase(): void {
 function init(): void {
   setLanguage(currentLang);
   initAudio();
+  updateMuteButtonVisibility();
 
   const muteButton = document.getElementById('muteButton');
   if (muteButton) {

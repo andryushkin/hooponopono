@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>ho'oponopono</title>
-        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="style.css?v=2" />
     </head>
     <body>
         <div class="language-selector">
@@ -25,20 +25,20 @@
                     <div class="language-option" data-lang="ar">AR - العربية</div>
                 </div>
             </div>
+            <button id="muteButton" class="mute-button">🔇</button>
+            <div id="online" class="online">Connecting...</div>
         </div>
 
         <div class="container">
             <div class="phrase-container">
                 <div id="phrase" class="phrase"></div>
             </div>
+        </div>
 
-            <div class="controls-container">
-                <button id="muteButton" class="mute-button">🔊</button>
-            </div>
-
-            <div class="online-container">
-                <div id="online" class="online">Connecting...</div>
-            </div>
+        <div class="cws-link-container">
+            <a class="cws-link" href="CHROME_WEB_STORE_URL" target="_blank" rel="noopener">
+                Available in the Chrome Web Store
+            </a>
         </div>
 
         <script src="script.js"></script>
