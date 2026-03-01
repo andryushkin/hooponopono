@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Overview
 
 Hooponopono meditation site on **Cloudflare Pages + Durable Objects**, TypeScript + Bun.
-Migration from DigitalOcean (Python WebSocket server) is complete. Old code at `../hooponopono_old/`.
+Migration from DigitalOcean (Python WebSocket server) is complete.
 
 **Features:**
 - Phrase synchronization — client-side, computed from unix timestamp (no server timer)
