@@ -11,7 +11,7 @@ Migration from DigitalOcean (Python WebSocket server) is complete.
 - Phrase synchronization — client-side, computed from unix timestamp (no server timer)
 - Online counter — real WebSocket connections only (0 when nobody online)
 - 12 languages, audio for EN only (sounds/hooponopono_en.m4a)
-- Chrome Extension (MV3, newtab override)
+- Chrome Extension (MV3, opens meditation on toolbar icon click)
 
 ## Stack
 
@@ -51,7 +51,8 @@ public/
   _redirects         # www → apex 301 (Cloudflare only, warning locally — expected)
   _headers           # CORS for phrases.json
 extension/
-  manifest.json      # MV3, host_permissions: wss://hooponopono.online/*
+  manifest.json      # MV3, action + background.js, host_permissions: wss://hooponopono.online/*
+  background.js      # service worker: opens newtab.html on toolbar icon click
   icons/             # User must add icon16.png, icon48.png, icon128.png manually
 dist/                # gitignored — includes _worker.js (Pages Functions entry)
 extension/dist/      # gitignored
@@ -97,6 +98,9 @@ Old `setInterval` pattern created parallel connections — do NOT use it.
 
 ## Chrome Extension
 
+- **Does NOT override newtab** — meditation opens only on toolbar icon click
+- `background.js` (service worker): `chrome.action.onClicked` → `chrome.tabs.create({ url: chrome.runtime.getURL('newtab.html') })`
+- `chrome.tabs.create()` requires no extra permissions — allowed by default in MV3
 - WS_URL hardcoded to `wss://hooponopono.online/ws` (not `pages.dev` — unstable)
 - `isExtension` check via `globalThis['chrome']?.runtime` (no @types/chrome needed)
 - icons/ must be populated before publishing to Chrome Web Store
