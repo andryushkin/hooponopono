@@ -7,6 +7,11 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
+    if (url.hostname === 'www.hooponopono.online') {
+      url.hostname = 'hooponopono.online';
+      return Response.redirect(url.toString(), 301);
+    }
+
     if (url.pathname === '/ws') {
       const id = env.HOOP_ROOM.idFromName('global');
       const stub = env.HOOP_ROOM.get(id);
