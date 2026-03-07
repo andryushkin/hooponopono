@@ -443,7 +443,7 @@ extension/dist/
 21. Дополнить `.gitignore`: `extension/dist/`
 22. `bun run build:ext` — собрать расширение
 23. Загрузить `extension/dist/` в Chrome через `chrome://extensions` → "Load unpacked"
-24. Публикация в Chrome Web Store (опционально)
+24. Публикация в Chrome Web Store — ✅ опубликовано (2026-03-07), URL: https://chromewebstore.google.com/detail/pceonbdlmbbfafblfjejnohbhgabcjem
 
 ### Проверка расширения
 
