@@ -36,6 +36,10 @@ svg.line-chart .dot{fill:#87d7af;r:3}
 .hour-bar{background:#87d7af;border-radius:2px 2px 0 0;min-height:2px;transition:height .3s}
 .hour-labels{display:grid;grid-template-columns:repeat(24,1fr);gap:2px;margin-top:4px}
 .hour-label{font-size:9px;color:#8a9199;text-align:center}
+.period-tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+.period-btn{padding:4px 12px;border:1px solid #3b4252;border-radius:6px;background:transparent;color:#c6c8d1;cursor:pointer;font-size:12px;transition:all .15s}
+.period-btn:hover{border-color:#87d7af;color:#87d7af}
+.period-btn.active{background:#4a5a5e;color:#87d7af;border-color:#87d7af}
 .loading{text-align:center;color:#8a9199;padding:40px}
 .error{color:#d78787;text-align:center;padding:20px}
 .auto-refresh{font-size:11px;color:#5a6a6e;text-align:right;margin-top:8px}
@@ -49,12 +53,20 @@ svg.line-chart .dot{fill:#87d7af;r:3}
   <button class="tab" data-source="ext">Extension</button>
   <button class="tab" data-source="ios">iOS</button>
 </div>
+<div class="period-tabs" id="periodTabs">
+  <button class="period-btn active" data-period="30d">30d</button>
+  <button class="period-btn" data-period="1d">1d</button>
+  <button class="period-btn" data-period="7d">7d</button>
+  <button class="period-btn" data-period="90d">90d</button>
+  <button class="period-btn" data-period="all">All</button>
+</div>
 <div id="content"><div class="loading">Loading...</div></div>
-<div class="auto-refresh">Auto-refresh every 60s</div>
+<div class="auto-refresh">Auto-refresh every 60 min</div>
 
 <script>
 const apiBase = window.location.pathname + '/api';
 let currentSource = '';
+let currentPeriod = '30d';
 
 function formatDuration(s) {
   if (s < 60) return s + 's';
@@ -119,11 +131,15 @@ function renderHours(hours) {
 
 function render(d) {
   const showSource = !currentSource;
+  const periodLabel = d.period === 'all' ? 'All Time' : d.period;
   let html = `
     <div class="cards">
-      <div class="card"><div class="card-label">Sessions (30d)</div><div class="card-value">${d.total_sessions}</div></div>
-      <div class="card"><div class="card-label">Today</div><div class="card-value">${d.today_sessions}</div></div>
+      <div class="card"><div class="card-label">Sessions (${periodLabel})</div><div class="card-value">${d.total_sessions}</div></div>
+      <div class="card"><div class="card-label">Today Sessions</div><div class="card-value">${d.today_sessions}</div></div>
       <div class="card"><div class="card-label">Avg Duration</div><div class="card-value duration">${formatDuration(d.avg_duration_seconds)}</div></div>
+      <div class="card"><div class="card-label">Clients (${periodLabel})</div><div class="card-value">${d.unique_clients}</div></div>
+      <div class="card"><div class="card-label">Clients (All Time)</div><div class="card-value">${d.unique_clients_total}</div></div>
+      <div class="card"><div class="card-label">New Clients Today</div><div class="card-value">${d.new_clients_today}</div></div>
     </div>
     <div class="section">
       <div class="section-title">Sessions per Day</div>
@@ -152,7 +168,9 @@ function render(d) {
 
 async function loadData() {
   try {
-    const url = currentSource ? `${apiBase}?source=${currentSource}` : apiBase;
+    const qs = new URLSearchParams({ period: currentPeriod });
+    if (currentSource) qs.set('source', currentSource);
+    const url = `${apiBase}?${qs}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(res.statusText);
     const data = await res.json();
@@ -171,8 +189,17 @@ document.getElementById('tabs').addEventListener('click', (e) => {
   loadData();
 });
 
+document.getElementById('periodTabs').addEventListener('click', (e) => {
+  const btn = e.target.closest('.period-btn');
+  if (!btn) return;
+  document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentPeriod = btn.dataset.period;
+  loadData();
+});
+
 loadData();
-setInterval(loadData, 60000);
+setInterval(loadData, 3_600_000);
 </script>
 </body>
 </html>

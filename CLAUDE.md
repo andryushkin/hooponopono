@@ -93,18 +93,23 @@ Constants live in `public/phrases.json` (imported by script.ts via bun):
 - `env.ASSETS` typed as `(env as unknown as { ASSETS: Fetcher }).ASSETS`
 
 ### Session Analytics (SQLite)
-- Table `sessions`: id, started, duration, locale, source, device
-- Session metadata from WS URL query params: `?lang=en&src=web&device=desktop`
+- Tables: `sessions` (id, started, duration, locale, source, device, **client_id**) + `clients` (id, first_seen, last_seen, locale, source, device)
+- `client_id` — UUID from client localStorage (`hoop_cid`), sent as WS query param `?cid=`
+- On WS connect: UPSERT into `clients` + INSERT into `sessions` with `client_id`
+- `client_id` migration: `ALTER TABLE sessions ADD COLUMN client_id TEXT DEFAULT ''` (try/catch — safe)
+- Session metadata from WS URL query params: `?lang=en&src=web&device=desktop&cid=<uuid>`
 - Sources: `web` (site), `ext` (Chrome Extension), `ios` (iOS app)
 - Duration: server-side, computed from WS connect/disconnect timestamps
 - WebSocket tags: `state.acceptWebSocket(server, [sid, startTimestamp])` — used on close/error
 - Cleanup: records older than 90 days, max once per hour
-- Stats API: `/stats` endpoint in DO, returns JSON with optional `?source=` filter
+- Stats API: `/stats` endpoint in DO, supports `?source=` and `?period=1d|7d|30d|90d|all`
 
 ### Admin Dashboard
 - Route: `/stats/{STATS_SECRET}` → `stats.html`, `/stats/{STATS_SECRET}/api` → DO stats JSON
 - `STATS_SECRET` is a Cloudflare Pages secret
-- Dashboard: self-contained HTML, dark theme, tabs (All/Web/Ext/iOS), auto-refresh 60s
+- Dashboard: self-contained HTML, dark theme, tabs (All/Web/Ext/iOS), period selector (30d|1d|7d|90d|All)
+- 6 metric cards: Sessions (period), Today Sessions, Avg Duration, Clients (period), Clients (All Time), New Clients Today
+- Auto-refresh: **60 minutes** (not 60 seconds)
 
 ## Audio: EN-only, State Reset on Language Switch
 
@@ -131,7 +136,7 @@ Old `setInterval` pattern created parallel connections — do NOT use it.
 - **Does NOT override newtab** — meditation opens only on toolbar icon click
 - `background.js` (service worker): `chrome.action.onClicked` → `chrome.tabs.create({ url: chrome.runtime.getURL('newtab.html') })`
 - `chrome.tabs.create()` requires no extra permissions — allowed by default in MV3
-- WS URL includes query params: `?lang=en&src=ext&device=desktop` (session metadata for analytics)
+- WS URL includes query params: `?lang=en&src=ext&device=desktop&cid=<uuid>` (session metadata + client identity)
 - WS base URL hardcoded to `wss://hooponopono.online/ws` (not `pages.dev` — unstable)
 - `isExtension` check via `globalThis['chrome']?.runtime` (no @types/chrome needed)
 - icons/ must be populated before publishing to Chrome Web Store

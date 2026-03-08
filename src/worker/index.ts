@@ -21,7 +21,7 @@ export default {
 
     // Stats dashboard — serve stats.html
     if (env.STATS_SECRET && url.pathname === `/stats/${env.STATS_SECRET}`) {
-      return ASSETS.fetch(new Request(new URL('/stats.html', url.origin), request));
+      return ASSETS.fetch(new Request(new URL('/stats', url.origin), request));
     }
 
     // Stats JSON API — proxy to DO

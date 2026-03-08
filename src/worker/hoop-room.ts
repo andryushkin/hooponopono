@@ -3,20 +3,14 @@ export interface Env {
   STATS_SECRET?: string;
 }
 
-interface SessionRow {
-  id: string;
-  started: number;
-  duration: number;
-  locale: string;
-  source: string;
-  device: string;
-}
-
 interface StatsResponse {
   period: string;
   total_sessions: number;
   today_sessions: number;
   avg_duration_seconds: number;
+  unique_clients: number;
+  unique_clients_total: number;
+  new_clients_today: number;
   sessions_per_day: { day: string; count: number }[];
   locale_distribution: { locale: string; count: number }[];
   source_distribution: { source: string; count: number }[];
@@ -35,17 +29,34 @@ export class HoopRoom implements DurableObject {
   private ensureSchema(): void {
     this.state.storage.sql.exec(`
       CREATE TABLE IF NOT EXISTS sessions (
-        id       TEXT PRIMARY KEY,
-        started  INTEGER NOT NULL,
-        duration INTEGER DEFAULT 0,
-        locale   TEXT NOT NULL DEFAULT 'en',
-        source   TEXT NOT NULL DEFAULT 'web',
-        device   TEXT NOT NULL DEFAULT 'desktop'
+        id        TEXT PRIMARY KEY,
+        started   INTEGER NOT NULL,
+        duration  INTEGER DEFAULT 0,
+        locale    TEXT NOT NULL DEFAULT 'en',
+        source    TEXT NOT NULL DEFAULT 'web',
+        device    TEXT NOT NULL DEFAULT 'desktop'
       )
     `);
     this.state.storage.sql.exec(`
       CREATE INDEX IF NOT EXISTS idx_sessions_started ON sessions(started)
     `);
+    this.state.storage.sql.exec(`
+      CREATE TABLE IF NOT EXISTS clients (
+        id         TEXT PRIMARY KEY,
+        first_seen INTEGER NOT NULL,
+        last_seen  INTEGER NOT NULL,
+        locale     TEXT NOT NULL DEFAULT 'en',
+        source     TEXT NOT NULL DEFAULT 'web',
+        device     TEXT NOT NULL DEFAULT 'desktop'
+      )
+    `);
+    try {
+      this.state.storage.sql.exec(
+        `ALTER TABLE sessions ADD COLUMN client_id TEXT DEFAULT ''`,
+      );
+    } catch (_) {
+      // column already exists — migration already ran
+    }
   }
 
   async fetch(request: Request): Promise<Response> {
@@ -66,14 +77,29 @@ export class HoopRoom implements DurableObject {
     const lang = url.searchParams.get('lang') || 'en';
     const src = url.searchParams.get('src') || 'web';
     const device = url.searchParams.get('device') || 'desktop';
+    const cid = url.searchParams.get('cid') ?? '';
 
     const sid = crypto.randomUUID();
     const now = Math.floor(Date.now() / 1000);
 
+    // UPSERT client record
+    if (cid) {
+      this.state.storage.sql.exec(
+        `INSERT INTO clients (id, first_seen, last_seen, locale, source, device)
+         VALUES (?, ?, ?, ?, ?, ?)
+         ON CONFLICT(id) DO UPDATE SET
+           last_seen = excluded.last_seen,
+           locale    = excluded.locale,
+           source    = excluded.source,
+           device    = excluded.device`,
+        cid, now, now, lang, src, device,
+      );
+    }
+
     // Insert session record
     this.state.storage.sql.exec(
-      `INSERT INTO sessions (id, started, locale, source, device) VALUES (?, ?, ?, ?, ?)`,
-      sid, now, lang, src, device,
+      `INSERT INTO sessions (id, started, locale, source, device, client_id) VALUES (?, ?, ?, ?, ?, ?)`,
+      sid, now, lang, src, device, cid,
     );
 
     const pair = new WebSocketPair();
@@ -146,66 +172,121 @@ export class HoopRoom implements DurableObject {
     this.ensureSchema();
 
     const sourceFilter = url.searchParams.get('source');
-    const whereClause = sourceFilter ? `WHERE source = ?` : '';
-    const params: unknown[] = sourceFilter ? [sourceFilter] : [];
-
+    const periodParam = url.searchParams.get('period') ?? '30d';
     const now = Math.floor(Date.now() / 1000);
-    const thirtyDaysAgo = now - 30 * 24 * 3600;
     const todayStart = now - (now % 86400);
 
-    // Total sessions (last 30 days)
+    const periodDays: Record<string, number | null> = {
+      '1d': 1, '7d': 7, '30d': 30, '90d': 90, 'all': null,
+    };
+    const days = periodDays[periodParam] ?? 30;
+    const periodStart = days !== null ? now - days * 86400 : 0;
+
+    // Build WHERE for sessions with period + source
+    const conditions: string[] = [];
+    const params: unknown[] = [];
+    if (sourceFilter) { conditions.push('source = ?'); params.push(sourceFilter); }
+    if (days !== null) { conditions.push('started >= ?'); params.push(periodStart); }
+    const where = conditions.length ? 'WHERE ' + conditions.join(' AND ') : '';
+
+    // Total sessions in period
     const totalRow = this.state.storage.sql.exec(
-      `SELECT COUNT(*) as cnt FROM sessions ${whereClause ? whereClause + ' AND' : 'WHERE'} started >= ?`,
-      ...params, thirtyDaysAgo,
+      `SELECT COUNT(*) as cnt FROM sessions ${where}`,
+      ...params,
     ).one() as { cnt: number };
 
-    // Today sessions
+    // Today sessions (always 1 day, regardless of period)
+    const todayParams: unknown[] = sourceFilter ? [sourceFilter, todayStart] : [todayStart];
+    const todayWhere = sourceFilter
+      ? 'WHERE source = ? AND started >= ?'
+      : 'WHERE started >= ?';
     const todayRow = this.state.storage.sql.exec(
-      `SELECT COUNT(*) as cnt FROM sessions ${whereClause ? whereClause + ' AND' : 'WHERE'} started >= ?`,
-      ...params, todayStart,
+      `SELECT COUNT(*) as cnt FROM sessions ${todayWhere}`,
+      ...todayParams,
     ).one() as { cnt: number };
 
-    // Avg duration (last 30 days, only completed sessions with duration > 0)
+    // Avg duration (period, only completed sessions)
+    const avgWhere = conditions.length
+      ? 'WHERE ' + [...conditions, 'duration > 0'].join(' AND ')
+      : 'WHERE duration > 0';
     const avgRow = this.state.storage.sql.exec(
-      `SELECT COALESCE(AVG(duration), 0) as avg_dur FROM sessions ${whereClause ? whereClause + ' AND' : 'WHERE'} started >= ? AND duration > 0`,
-      ...params, thirtyDaysAgo,
+      `SELECT COALESCE(AVG(duration), 0) as avg_dur FROM sessions ${avgWhere}`,
+      ...params,
     ).one() as { avg_dur: number };
 
-    // Sessions per day (last 30 days)
+    // Unique clients in period (from sessions.client_id)
+    const uqPeriodWhere = conditions.length
+      ? 'WHERE ' + [...conditions, "client_id != ''"].join(' AND ')
+      : "WHERE client_id != ''";
+    const uqPeriodRow = this.state.storage.sql.exec(
+      `SELECT COUNT(DISTINCT client_id) as cnt FROM sessions ${uqPeriodWhere}`,
+      ...params,
+    ).one() as { cnt: number };
+
+    // Unique clients total (all time, from clients table)
+    const uqTotalRow = sourceFilter
+      ? this.state.storage.sql.exec(
+          `SELECT COUNT(DISTINCT client_id) as cnt FROM sessions WHERE source = ? AND client_id != ''`,
+          sourceFilter,
+        ).one() as { cnt: number }
+      : this.state.storage.sql.exec(
+          `SELECT COUNT(*) as cnt FROM clients`,
+        ).one() as { cnt: number };
+
+    // New clients today
+    const newTodayRow = sourceFilter
+      ? this.state.storage.sql.exec(
+          `SELECT COUNT(*) as cnt FROM clients WHERE source = ? AND first_seen >= ?`,
+          sourceFilter, todayStart,
+        ).one() as { cnt: number }
+      : this.state.storage.sql.exec(
+          `SELECT COUNT(*) as cnt FROM clients WHERE first_seen >= ?`,
+          todayStart,
+        ).one() as { cnt: number };
+
+    // Sessions per day (cap at 90 days for graph when period=all)
+    const graphStart = days !== null ? periodStart : now - 90 * 86400;
+    const perDayParams: unknown[] = sourceFilter ? [sourceFilter, graphStart] : [graphStart];
+    const perDayWhere = sourceFilter
+      ? 'WHERE source = ? AND started >= ?'
+      : 'WHERE started >= ?';
     const perDayRows = this.state.storage.sql.exec(
-      `SELECT date(started, 'unixepoch') as day, COUNT(*) as cnt FROM sessions ${whereClause ? whereClause + ' AND' : 'WHERE'} started >= ? GROUP BY day ORDER BY day`,
-      ...params, thirtyDaysAgo,
+      `SELECT date(started, 'unixepoch') as day, COUNT(*) as cnt FROM sessions ${perDayWhere} GROUP BY day ORDER BY day`,
+      ...perDayParams,
     ).toArray() as { day: string; cnt: number }[];
 
     // Locale distribution
     const localeRows = this.state.storage.sql.exec(
-      `SELECT locale, COUNT(*) as cnt FROM sessions ${whereClause ? whereClause + ' AND' : 'WHERE'} started >= ? GROUP BY locale ORDER BY cnt DESC`,
-      ...params, thirtyDaysAgo,
+      `SELECT locale, COUNT(*) as cnt FROM sessions ${where} GROUP BY locale ORDER BY cnt DESC`,
+      ...params,
     ).toArray() as { locale: string; cnt: number }[];
 
     // Source distribution
     const sourceRows = this.state.storage.sql.exec(
-      `SELECT source, COUNT(*) as cnt FROM sessions ${whereClause ? whereClause + ' AND' : 'WHERE'} started >= ? GROUP BY source ORDER BY cnt DESC`,
-      ...params, thirtyDaysAgo,
+      `SELECT source, COUNT(*) as cnt FROM sessions ${where} GROUP BY source ORDER BY cnt DESC`,
+      ...params,
     ).toArray() as { source: string; cnt: number }[];
 
     // Device distribution
     const deviceRows = this.state.storage.sql.exec(
-      `SELECT device, COUNT(*) as cnt FROM sessions ${whereClause ? whereClause + ' AND' : 'WHERE'} started >= ? GROUP BY device ORDER BY cnt DESC`,
-      ...params, thirtyDaysAgo,
+      `SELECT device, COUNT(*) as cnt FROM sessions ${where} GROUP BY device ORDER BY cnt DESC`,
+      ...params,
     ).toArray() as { device: string; cnt: number }[];
 
     // Peak hours
     const hourRows = this.state.storage.sql.exec(
-      `SELECT CAST(strftime('%H', started, 'unixepoch') AS INTEGER) as hour, COUNT(*) as cnt FROM sessions ${whereClause ? whereClause + ' AND' : 'WHERE'} started >= ? GROUP BY hour ORDER BY hour`,
-      ...params, thirtyDaysAgo,
+      `SELECT CAST(strftime('%H', started, 'unixepoch') AS INTEGER) as hour, COUNT(*) as cnt FROM sessions ${where} GROUP BY hour ORDER BY hour`,
+      ...params,
     ).toArray() as { hour: number; cnt: number }[];
 
     const stats: StatsResponse = {
-      period: '30d',
+      period: periodParam,
       total_sessions: totalRow.cnt,
       today_sessions: todayRow.cnt,
       avg_duration_seconds: Math.round(avgRow.avg_dur),
+      unique_clients: uqPeriodRow.cnt,
+      unique_clients_total: uqTotalRow.cnt,
+      new_clients_today: newTodayRow.cnt,
       sessions_per_day: perDayRows.map(r => ({ day: r.day, count: r.cnt })),
       locale_distribution: localeRows.map(r => ({ locale: r.locale, count: r.cnt })),
       source_distribution: sourceRows.map(r => ({ source: r.source, count: r.cnt })),

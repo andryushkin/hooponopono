@@ -87,11 +87,18 @@ function detectDevice(): 'mobile' | 'desktop' {
   return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
 }
 
+function getClientId(): string {
+  let cid = localStorage.getItem('hoop_cid');
+  if (!cid) { cid = crypto.randomUUID(); localStorage.setItem('hoop_cid', cid); }
+  return cid;
+}
+
 function buildWsUrl(): string {
   const params = new URLSearchParams({
     lang: currentLang,
     src: isExtension ? 'ext' : 'web',
     device: detectDevice(),
+    cid: getClientId(),
   });
   return `${WS_BASE}?${params}`;
 }
