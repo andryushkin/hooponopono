@@ -10,5 +10,9 @@
   "actionTitle": {
     "message": "Хо'опонопоно — Медитация",
     "description": "Подсказка при наведении на иконку в панели инструментов"
+  },
+  "welcomeMessage": {
+    "message": "Спасибо за установку. Нажмите на иконку в панели инструментов, чтобы начать медитацию.",
+    "description": "Welcome page message after installation"
   }
 }

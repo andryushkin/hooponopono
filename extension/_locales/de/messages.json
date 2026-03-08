@@ -10,5 +10,9 @@
   "actionTitle": {
     "message": "Ho'oponopono-Meditation",
     "description": "Tooltip beim Überfahren des Symbols in der Symbolleiste"
+  },
+  "welcomeMessage": {
+    "message": "Danke für die Installation. Klicke auf das Symbol in der Symbolleiste, um mit der Meditation zu beginnen.",
+    "description": "Welcome page message after installation"
   }
 }

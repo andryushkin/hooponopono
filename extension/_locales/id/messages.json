@@ -10,5 +10,9 @@
   "actionTitle": {
     "message": "Meditasi Ho'oponopono",
     "description": "Tooltip saat mengarahkan kursor ke ikon di bilah alat"
+  },
+  "welcomeMessage": {
+    "message": "Terima kasih telah menginstal. Klik ikon toolbar untuk mulai bermeditasi.",
+    "description": "Welcome page message after installation"
   }
 }

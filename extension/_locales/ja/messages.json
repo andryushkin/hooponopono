@@ -10,5 +10,9 @@
   "actionTitle": {
     "message": "ホ・オポノポノ瞑想",
     "description": "ツールバーアイコンにカーソルを合わせたときのツールチップ"
+  },
+  "welcomeMessage": {
+    "message": "インストールありがとうございます。ツールバーのアイコンをクリックして瞑想を始めてください。",
+    "description": "Welcome page message after installation"
   }
 }

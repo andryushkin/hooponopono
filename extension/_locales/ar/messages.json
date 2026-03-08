@@ -10,5 +10,9 @@
   "actionTitle": {
     "message": "تأمل هو'أوبونوبونو",
     "description": "تلميح الأداة عند تمرير المؤشر فوق أيقونة شريط الأدوات"
+  },
+  "welcomeMessage": {
+    "message": "شكراً للتثبيت. انقر على أيقونة شريط الأدوات لبدء التأمل.",
+    "description": "Welcome page message after installation"
   }
 }

@@ -10,5 +10,9 @@
   "actionTitle": {
     "message": "Ho'oponopono Meditation",
     "description": "Tooltip on toolbar icon"
+  },
+  "welcomeMessage": {
+    "message": "Thank you for installing. Click the toolbar icon to start meditating.",
+    "description": "Welcome page message after installation"
   }
 }

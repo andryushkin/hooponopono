@@ -10,5 +10,9 @@
   "actionTitle": {
     "message": "荷欧波诺波诺冥想",
     "description": "将鼠标悬停在工具栏图标上时显示的提示"
+  },
+  "welcomeMessage": {
+    "message": "感谢安装。点击工具栏图标开始冥想。",
+    "description": "Welcome page message after installation"
   }
 }

@@ -10,5 +10,9 @@
   "actionTitle": {
     "message": "Méditation Ho'oponopono",
     "description": "Info-bulle au survol de l'icône dans la barre d'outils"
+  },
+  "welcomeMessage": {
+    "message": "Merci pour l'installation. Cliquez sur l'icône de la barre d'outils pour commencer à méditer.",
+    "description": "Welcome page message after installation"
   }
 }

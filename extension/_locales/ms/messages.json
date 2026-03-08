@@ -10,5 +10,9 @@
   "actionTitle": {
     "message": "Meditasi Ho'oponopono",
     "description": "Petua semasa menuding ikon di bar alat"
+  },
+  "welcomeMessage": {
+    "message": "Terima kasih kerana memasang. Klik ikon bar alat untuk mula bermeditasi.",
+    "description": "Welcome page message after installation"
   }
 }

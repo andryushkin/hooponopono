@@ -135,17 +135,19 @@ Old `setInterval` pattern created parallel connections — do NOT use it.
 
 - **Does NOT override newtab** — meditation opens only on toolbar icon click
 - `background.js` (service worker): `chrome.action.onClicked` → `chrome.tabs.create({ url: chrome.runtime.getURL('newtab.html') })`
+- `chrome.runtime.onInstalled` → opens `welcome.html` on first install (`reason === 'install'`)
 - `chrome.tabs.create()` requires no extra permissions — allowed by default in MV3
 - WS URL includes query params: `?lang=en&src=ext&device=desktop&cid=<uuid>` (session metadata + client identity)
 - WS base URL hardcoded to `wss://hooponopono.online/ws` (not `pages.dev` — unstable)
 - `isExtension` check via `globalThis['chrome']?.runtime` (no @types/chrome needed)
 - icons/ must be populated before publishing to Chrome Web Store
+- **Load from `extension/dist/` in Chrome** (not `extension/`) — source dir lacks newtab.html, script.js, etc.
 
 ### chrome.i18n Localization
 
 - `manifest.json` uses `__MSG_extName__`, `__MSG_extDescription__`, `__MSG_actionTitle__` with `default_locale: "en"`
 - `extension/_locales/` has 12 locale dirs (en, ru, es, pt_BR, de, cs, fr, ja, zh_CN, id, ms, ar)
-- Each `messages.json` has 3 keys: `extName`, `extDescription`, `actionTitle` — all with `description` field
+- Each `messages.json` has 4 keys: `extName`, `extDescription`, `actionTitle`, `welcomeMessage` — all with `description` field
 - Locale code mapping: project uses `pt`/`zh`, Chrome _locales use `pt_BR`/`zh_CN`
 - `detectLanguage()` in extension context uses `chrome.i18n.getUILanguage()` to auto-detect Chrome UI language
 - Runtime translations (phrases, labels, info modal) stay in `phrases.json` — NOT duplicated in `_locales/`
