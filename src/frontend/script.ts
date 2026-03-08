@@ -78,6 +78,7 @@ let audioLoaded = false;
 let reconnectAttempt = 0;
 let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
 let isModalOpen = false;
+let isWelcomeModalOpen = false;
 
 const WS_BASE = isExtension
   ? 'wss://hooponopono.online/ws'
@@ -199,6 +200,34 @@ function setLanguage(lang: LangCode): void {
   updateOnlineCount();
   updateMuteButtonVisibility();
   if (isModalOpen) updateModalContent(lang);
+}
+
+// --- Welcome modal ---
+
+function openWelcomeModal(): void {
+  isWelcomeModalOpen = true;
+  const chromeObj = (globalThis as Record<string, unknown>)['chrome'] as Record<string, unknown> | undefined;
+  const i18n = chromeObj?.['i18n'] as Record<string, unknown> | undefined;
+  const getMessage = i18n?.['getMessage'] as ((key: string) => string) | undefined;
+  const title = getMessage?.('extName') || "Ho'oponopono Meditation";
+  const msg = getMessage?.('welcomeMessage') || 'Thank you for installing. Click the toolbar icon to start meditating.';
+  const titleEl = document.getElementById('welcomeTitle');
+  const msgEl = document.getElementById('welcomeMessage');
+  if (titleEl) titleEl.textContent = title;
+  if (msgEl) msgEl.textContent = msg;
+  const overlay = document.getElementById('welcomeOverlay');
+  if (!overlay) return;
+  overlay.classList.add('open');
+  overlay.setAttribute('aria-hidden', 'false');
+  (document.getElementById('welcomeModal') as HTMLElement | null)?.focus();
+}
+
+function closeWelcomeModal(): void {
+  isWelcomeModalOpen = false;
+  const overlay = document.getElementById('welcomeOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('open');
+  overlay.setAttribute('aria-hidden', 'true');
 }
 
 // --- Info modal ---
@@ -354,8 +383,20 @@ function init(): void {
   });
   document.getElementById('infoModalCloseBtn')?.addEventListener('click', closeModal);
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && isModalOpen) closeModal();
+    if (e.key === 'Escape') {
+      if (isModalOpen) closeModal();
+      if (isWelcomeModalOpen) closeWelcomeModal();
+    }
   });
+
+  // Welcome modal
+  document.getElementById('welcomeCloseBtn')?.addEventListener('click', closeWelcomeModal);
+  document.getElementById('welcomeOverlay')?.addEventListener('click', (e) => {
+    if (e.target === document.getElementById('welcomeOverlay')) closeWelcomeModal();
+  });
+  if (new URLSearchParams(location.search).get('welcome') === '1') {
+    openWelcomeModal();
+  }
 
   const onlineEl = document.getElementById('online');
   const labels = LABELS[currentLang];

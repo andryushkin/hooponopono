@@ -37,10 +37,10 @@ bun run type-check     # tsc --noEmit for BOTH tsconfigs (worker + frontend)
 ```
 src/
   frontend/
-    script.ts        # Phrase sync (setInterval 200ms), WebSocket with session metadata
-    index.html       # No modal, no StatCounter
-    style.css        # No modal CSS
-    newtab.html      # Chrome Extension newtab
+    script.ts          # Phrase sync (setInterval 200ms), WebSocket with session metadata
+    index.html         # No modal, no StatCounter
+    style.css          # No modal CSS
+    hooponopono.html   # Chrome Extension page (renamed from newtab.html)
     tsconfig.json    # lib: ["DOM"], resolveJsonModule: true — NO workers-types
   worker/
     index.ts         # Pages worker: /ws → DO, /stats/{hash} → dashboard/API, else → ASSETS
@@ -54,7 +54,7 @@ public/
   stats.html         # Admin dashboard (self-contained, dark theme, source tabs)
 extension/
   manifest.json      # MV3, default_locale: en, __MSG_*__ for name/description/title
-  background.js      # service worker: opens newtab.html on toolbar icon click
+  background.js      # service worker: opens hooponopono.html (+ ?welcome=1 on first install)
   _locales/          # chrome.i18n: en,ru,es,pt_BR,de,cs,fr,ja,zh_CN,id,ms,ar
   icons/             # User must add icon16.png, icon48.png, icon128.png manually
 dist/                # gitignored — includes _worker.js (Pages Functions entry)
@@ -128,20 +128,20 @@ Old `setInterval` pattern created parallel connections — do NOT use it.
 
 - **Online counter** (`#online`) is inside `.language-selector` (flex column, align-items: flex-end) — flows as third item after language-dropdown and muteButton
 - **CWS link** in `index.html`: `.cws-link-container` (position fixed, bottom center), plain text `<a>` — no image badge
-- `newtab.html` does NOT have a CWS link
+- `hooponopono.html` does NOT have a CWS link
 - **Cache-busting:** `style.css?v=N` — increment `N` whenever CSS changes to bypass Chrome/Cloudflare cache
 
 ## Chrome Extension
 
 - **Does NOT override newtab** — meditation opens only on toolbar icon click
-- `background.js` (service worker): `chrome.action.onClicked` → `chrome.tabs.create({ url: chrome.runtime.getURL('newtab.html') })`
-- `chrome.runtime.onInstalled` → opens `welcome.html` on first install (`reason === 'install'`)
+- `background.js` (service worker): `chrome.action.onClicked` → `chrome.tabs.create({ url: chrome.runtime.getURL('hooponopono.html') })`
+- `chrome.runtime.onInstalled` → opens `hooponopono.html?welcome=1` on first install — shows welcome **modal overlay** inside meditation page (not a separate page)
 - `chrome.tabs.create()` requires no extra permissions — allowed by default in MV3
 - WS URL includes query params: `?lang=en&src=ext&device=desktop&cid=<uuid>` (session metadata + client identity)
 - WS base URL hardcoded to `wss://hooponopono.online/ws` (not `pages.dev` — unstable)
 - `isExtension` check via `globalThis['chrome']?.runtime` (no @types/chrome needed)
 - icons/ must be populated before publishing to Chrome Web Store
-- **Load from `extension/dist/` in Chrome** (not `extension/`) — source dir lacks newtab.html, script.js, etc.
+- **Load from `extension/dist/` in Chrome** (not `extension/`) — source dir lacks hooponopono.html, script.js, etc.
 
 ### chrome.i18n Localization
 

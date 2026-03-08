@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ho'oponopono</title>
+        <link rel="stylesheet" href="style.css?v=8" />
+    </head>
+    <body>
+        <div class="language-selector">
+            <div class="language-dropdown">
+                <button class="language-button" id="languageButton">EN</button>
+                <div class="language-menu" id="languageMenu">
+                    <div class="language-option" data-lang="en">EN - English</div>
+                    <div class="language-option" data-lang="ru">RU - Русский</div>
+                    <div class="language-option" data-lang="es">ES - Español</div>
+                    <div class="language-option" data-lang="pt">PT - Português</div>
+                    <div class="language-option" data-lang="de">DE - Deutsch</div>
+                    <div class="language-option" data-lang="cs">CS - Čeština</div>
+                    <div class="language-option" data-lang="fr">FR - Français</div>
+                    <div class="language-option" data-lang="ja">JA - 日本語</div>
+                    <div class="language-option" data-lang="zh">ZH - 中文</div>
+                    <div class="language-option" data-lang="id">ID - Indonesia</div>
+                    <div class="language-option" data-lang="ms">MS - Melayu</div>
+                    <div class="language-option" data-lang="ar">AR - العربية</div>
+                </div>
+            </div>
+            <button id="infoButton" class="info-button" aria-label="About Ho'oponopono">i</button>
+            <button id="muteButton" class="mute-button hidden">🔇</button>
+            <div id="online" class="online">Connecting...</div>
+        </div>
+
+        <div class="container">
+            <div class="phrase-container">
+                <div id="phrase" class="phrase"></div>
+            </div>
+        </div>
+
+        <div id="infoOverlay" class="info-overlay" role="dialog" aria-modal="true"
+             aria-labelledby="infoModalTitle" aria-hidden="true">
+          <article id="infoModal" class="info-modal" tabindex="-1">
+            <button id="infoModalCloseBtn" class="info-modal-close" aria-label="Close">&#x2715;</button>
+            <h2 id="infoModalTitle" class="info-modal-title">Ho'oponopono</h2>
+            <p id="infoModalTagline" class="info-modal-tagline">An ancient Hawaiian practice of reconciliation and forgiveness</p>
+            <div class="info-modal-section">
+              <h3 id="infoSectionH0">What is Ho'oponopono?</h3>
+              <p id="infoSectionP0">Ho'oponopono is a Hawaiian spiritual practice meaning 'to make right.' Rooted in the belief that we are each responsible for everything in our reality, it uses four simple phrases to clear old memories, dissolve painful patterns, and restore harmony between yourself and the world.</p>
+            </div>
+            <div class="info-modal-section">
+              <h3 id="infoSectionH1">Why practice with the world?</h3>
+              <p id="infoSectionP1">This site synchronizes every visitor to the same phrase at the same moment, worldwide. When many people hold the same intention simultaneously, the practice moves from a private ritual to a shared field of healing. You are never practicing alone.</p>
+            </div>
+            <div class="info-modal-section">
+              <h3 id="infoSectionH2">The four phrases</h3>
+              <p id="infoSectionP2">I'm sorry — acknowledge that something in you may have created or attracted this. Please forgive me — ask for release, without needing to know what or who to forgive. Thank you — express gratitude to the universe, to life, to the unknown. I love you — direct unconditional love at the source of all things.</p>
+            </div>
+            <div class="info-modal-section">
+              <h3 id="infoSectionH3">Building a daily habit</h3>
+              <p id="infoSectionP3">Even a few minutes daily creates momentum. Try sitting quietly at the same time each day, breathing slowly, and letting each phrase arise naturally. Over weeks, many practitioners notice a softening of old resentments, lighter moods, and a sense of inner spaciousness.</p>
+            </div>
+          </article>
+        </div>
+
+        <div id="welcomeOverlay" class="info-overlay" role="dialog" aria-modal="true"
+             aria-labelledby="welcomeTitle" aria-hidden="true">
+          <article id="welcomeModal" class="info-modal" tabindex="-1">
+            <button id="welcomeCloseBtn" class="info-modal-close" aria-label="Close">&#x2715;</button>
+            <h2 id="welcomeTitle" class="info-modal-title"></h2>
+            <p id="welcomeMessage" class="info-modal-tagline"></p>
+          </article>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
