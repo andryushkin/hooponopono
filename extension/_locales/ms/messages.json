@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Meditasi Ho'oponopono",
+    "description": "Nama sambungan dalam CWS dan chrome://extensions"
+  },
+  "extDescription": {
+    "message": "Sertai meditasi Ho'oponopono global yang disegerakkan. Amalan purba Hawaii tentang perdamaian dan kemaafan.",
+    "description": "Penerangan sambungan dalam senarai CWS (maks. 132 aksara)"
+  },
+  "actionTitle": {
+    "message": "Meditasi Ho'oponopono",
+    "description": "Petua semasa menuding ikon di bar alat"
+  }
+}

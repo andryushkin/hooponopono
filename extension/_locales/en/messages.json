@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Ho'oponopono Meditation",
+    "description": "Extension name in CWS and chrome://extensions"
+  },
+  "extDescription": {
+    "message": "Join global synchronous Ho'oponopono meditation. Clear your mind, relieve stress, and find inner peace.",
+    "description": "Extension description in CWS listing (max 132 chars)"
+  },
+  "actionTitle": {
+    "message": "Ho'oponopono Meditation",
+    "description": "Tooltip on toolbar icon"
+  }
+}

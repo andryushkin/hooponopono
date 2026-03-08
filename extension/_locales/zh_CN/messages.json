@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "荷欧波诺波诺冥想",
+    "description": "CWS和chrome://extensions中显示的扩展名称"
+  },
+  "extDescription": {
+    "message": "加入全球同步荷欧波诺波诺冥想。来自夏威夷的古老和解与宽恕之道。",
+    "description": "CWS列表中的扩展描述（最多132个字符）"
+  },
+  "actionTitle": {
+    "message": "荷欧波诺波诺冥想",
+    "description": "将鼠标悬停在工具栏图标上时显示的提示"
+  }
+}

@@ -1,9 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Ho'oponopono Meditation",
-  "version": "1.0.4",
-  "description": "Join global synchronous Ho'oponopono meditation. Clear your mind, relieve stress, and find inner peace with this Hawaiian mantra.",
+  "name": "__MSG_extName__",
+  "version": "1.0.6",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
   "action": {
+    "default_title": "__MSG_actionTitle__",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",

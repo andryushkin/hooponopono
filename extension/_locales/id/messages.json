@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Meditasi Ho'oponopono",
+    "description": "Nama ekstensi di CWS dan chrome://extensions"
+  },
+  "extDescription": {
+    "message": "Bergabunglah dalam meditasi Ho'oponopono global yang tersinkronisasi. Praktik kuno Hawaii tentang rekonsiliasi dan pengampunan.",
+    "description": "Deskripsi ekstensi di CWS (maks. 132 karakter)"
+  },
+  "actionTitle": {
+    "message": "Meditasi Ho'oponopono",
+    "description": "Tooltip saat mengarahkan kursor ke ikon di bilah alat"
+  }
+}

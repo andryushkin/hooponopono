@@ -51,8 +51,9 @@ public/
   _redirects         # www → apex 301 (Cloudflare only, warning locally — expected)
   _headers           # CORS for phrases.json
 extension/
-  manifest.json      # MV3, action + background.js, host_permissions: wss://hooponopono.online/*
+  manifest.json      # MV3, default_locale: en, __MSG_*__ for name/description/title
   background.js      # service worker: opens newtab.html on toolbar icon click
+  _locales/          # chrome.i18n: en,ru,es,pt_BR,de,cs,fr,ja,zh_CN,id,ms,ar
   icons/             # User must add icon16.png, icon48.png, icon128.png manually
 dist/                # gitignored — includes _worker.js (Pages Functions entry)
 extension/dist/      # gitignored
@@ -117,3 +118,14 @@ Old `setInterval` pattern created parallel connections — do NOT use it.
 - WS_URL hardcoded to `wss://hooponopono.online/ws` (not `pages.dev` — unstable)
 - `isExtension` check via `globalThis['chrome']?.runtime` (no @types/chrome needed)
 - icons/ must be populated before publishing to Chrome Web Store
+
+### chrome.i18n Localization
+
+- `manifest.json` uses `__MSG_extName__`, `__MSG_extDescription__`, `__MSG_actionTitle__` with `default_locale: "en"`
+- `extension/_locales/` has 12 locale dirs (en, ru, es, pt_BR, de, cs, fr, ja, zh_CN, id, ms, ar)
+- Each `messages.json` has 3 keys: `extName`, `extDescription`, `actionTitle` — all with `description` field
+- Locale code mapping: project uses `pt`/`zh`, Chrome _locales use `pt_BR`/`zh_CN`
+- `detectLanguage()` in extension context uses `chrome.i18n.getUILanguage()` to auto-detect Chrome UI language
+- Runtime translations (phrases, labels, info modal) stay in `phrases.json` — NOT duplicated in `_locales/`
+- **Critical:** `@@bidi_dir` is a reserved Chrome system key — do NOT define it in messages.json (causes extension load error)
+- `build:ext` cleans `extension/dist/` with `rm -rf` before each build to prevent stale/nested `_locales/`

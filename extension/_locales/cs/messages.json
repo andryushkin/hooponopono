@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Meditace Ho'oponopono",
+    "description": "Název rozšíření v CWS a chrome://extensions"
+  },
+  "extDescription": {
+    "message": "Připojte se ke globální synchronní meditaci Ho'oponopono. Starodávná havajská praxe usmíření a odpuštění.",
+    "description": "Popis rozšíření v CWS (max. 132 znaků)"
+  },
+  "actionTitle": {
+    "message": "Meditace Ho'oponopono",
+    "description": "Popisek při najetí na ikonu v panelu nástrojů"
+  }
+}

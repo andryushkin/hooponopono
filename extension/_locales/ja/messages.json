@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "ホ・オポノポノ瞑想",
+    "description": "CWSおよびchrome://extensionsに表示される拡張機能名"
+  },
+  "extDescription": {
+    "message": "グローバル同期ホ・オポノポノ瞑想に参加。ハワイ古来の和解と許しの実践。",
+    "description": "CWSリストに表示される拡張機能の説明（最大132文字）"
+  },
+  "actionTitle": {
+    "message": "ホ・オポノポノ瞑想",
+    "description": "ツールバーアイコンにカーソルを合わせたときのツールチップ"
+  }
+}

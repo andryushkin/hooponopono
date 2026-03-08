@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Méditation Ho'oponopono",
+    "description": "Nom de l'extension dans le CWS et chrome://extensions"
+  },
+  "extDescription": {
+    "message": "Rejoignez la méditation Ho'oponopono mondiale synchronisée. Une ancienne pratique hawaïenne de réconciliation et de pardon.",
+    "description": "Description de l'extension dans le CWS (max. 132 caractères)"
+  },
+  "actionTitle": {
+    "message": "Méditation Ho'oponopono",
+    "description": "Info-bulle au survol de l'icône dans la barre d'outils"
+  }
+}

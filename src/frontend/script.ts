@@ -44,8 +44,15 @@ function detectLanguage(): LangCode {
   const saved = localStorage.getItem('hooponopono-lang') as LangCode | null;
   if (saved && SUPPORTED_LANGS.includes(saved)) return saved;
 
-  // В контексте расширения — всегда English по умолчанию
-  if (isExtension) return 'en';
+  // В контексте расширения — используем язык Chrome UI
+  if (isExtension) {
+    const chromeObj = (globalThis as Record<string, unknown>)['chrome'] as Record<string, unknown> | undefined;
+    const i18n = chromeObj?.['i18n'] as Record<string, unknown> | undefined;
+    const getUILanguage = i18n?.['getUILanguage'] as (() => string) | undefined;
+    const locale = getUILanguage?.() ?? 'en';
+    const code = (locale.split('-')[0] ?? 'en').split('_')[0] as LangCode;
+    return SUPPORTED_LANGS.includes(code) ? code : 'en';
+  }
 
   const candidates = navigator.languages?.length
     ? [...navigator.languages]
