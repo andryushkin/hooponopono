@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Ho'oponopono Stats</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#222D31;color:#e0e0e0;font-size:15px;line-height:1.5;padding:20px;max-width:1100px;margin:0 auto}
+h1{font-size:1.4em;font-weight:500;color:#87d7af;margin-bottom:16px}
+.tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.tab{padding:6px 16px;border:1px solid #3b4252;border-radius:6px;background:transparent;color:#c6c8d1;cursor:pointer;font-size:13px;transition:all .15s}
+.tab:hover{border-color:#87d7af;color:#87d7af}
+.tab.active{background:#87d7af;color:#222D31;border-color:#87d7af;font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:24px}
+.card{background:#2a363b;border-radius:8px;padding:16px}
+.card-label{font-size:12px;color:#8a9199;text-transform:uppercase;letter-spacing:.5px}
+.card-value{font-size:1.8em;font-weight:600;color:#87d7af;margin-top:4px}
+.card-value.duration{font-size:1.3em}
+.section{background:#2a363b;border-radius:8px;padding:16px;margin-bottom:16px}
+.section-title{font-size:13px;color:#8a9199;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.bar-label{min-width:60px;font-size:13px;color:#c6c8d1;text-align:right}
+.bar-track{flex:1;height:20px;background:#1a2226;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;background:#87d7af;border-radius:4px;transition:width .3s}
+.bar-count{min-width:40px;font-size:12px;color:#8a9199}
+.chart-container{width:100%;overflow-x:auto}
+svg.line-chart{width:100%;height:180px}
+svg.line-chart .grid-line{stroke:#3b4252;stroke-width:1}
+svg.line-chart .data-line{fill:none;stroke:#87d7af;stroke-width:2}
+svg.line-chart .data-area{fill:#87d7af;opacity:.1}
+svg.line-chart .axis-label{fill:#8a9199;font-size:10px}
+svg.line-chart .dot{fill:#87d7af;r:3}
+.hours-grid{display:grid;grid-template-columns:repeat(24,1fr);gap:2px;align-items:end;height:100px}
+.hour-bar{background:#87d7af;border-radius:2px 2px 0 0;min-height:2px;transition:height .3s}
+.hour-labels{display:grid;grid-template-columns:repeat(24,1fr);gap:2px;margin-top:4px}
+.hour-label{font-size:9px;color:#8a9199;text-align:center}
+.loading{text-align:center;color:#8a9199;padding:40px}
+.error{color:#d78787;text-align:center;padding:20px}
+.auto-refresh{font-size:11px;color:#5a6a6e;text-align:right;margin-top:8px}
+</style>
+</head>
+<body>
+<h1>Ho'oponopono Meditation Stats</h1>
+<div class="tabs" id="tabs">
+  <button class="tab active" data-source="">All</button>
+  <button class="tab" data-source="web">Web</button>
+  <button class="tab" data-source="ext">Extension</button>
+  <button class="tab" data-source="ios">iOS</button>
+</div>
+<div id="content"><div class="loading">Loading...</div></div>
+<div class="auto-refresh">Auto-refresh every 60s</div>
+
+<script>
+const apiBase = window.location.pathname + '/api';
+let currentSource = '';
+
+function formatDuration(s) {
+  if (s < 60) return s + 's';
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return m + 'm ' + sec + 's';
+}
+
+function renderBars(items, labelKey, countKey) {
+  if (!items.length) return '<div style="color:#5a6a6e;font-size:13px">No data</div>';
+  const max = Math.max(...items.map(i => i[countKey]));
+  return items.map(i => {
+    const pct = max > 0 ? (i[countKey] / max * 100) : 0;
+    return `<div class="bar-row">
+      <span class="bar-label">${i[labelKey]}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+      <span class="bar-count">${i[countKey]}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderLineChart(data) {
+  if (!data.length) return '<div style="color:#5a6a6e;font-size:13px">No data</div>';
+  const W = 800, H = 160, P = 30;
+  const max = Math.max(...data.map(d => d.count), 1);
+  const xStep = (W - P * 2) / Math.max(data.length - 1, 1);
+  const points = data.map((d, i) => ({
+    x: P + i * xStep,
+    y: H - P - ((d.count / max) * (H - P * 2)),
+    ...d
+  }));
+  const linePath = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ');
+  const areaPath = linePath + ` L${points[points.length-1].x},${H-P} L${points[0].x},${H-P} Z`;
+  const labels = [];
+  const step = Math.max(1, Math.floor(data.length / 7));
+  for (let i = 0; i < data.length; i += step) {
+    const d = data[i];
+    const x = P + i * xStep;
+    labels.push(`<text class="axis-label" x="${x}" y="${H-6}" text-anchor="middle">${d.day.slice(5)}</text>`);
+  }
+  return `<div class="chart-container"><svg class="line-chart" viewBox="0 0 ${W} ${H}">
+    <line class="grid-line" x1="${P}" y1="${P}" x2="${P}" y2="${H-P}"/>
+    <line class="grid-line" x1="${P}" y1="${H-P}" x2="${W-P}" y2="${H-P}"/>
+    <path class="data-area" d="${areaPath}"/>
+    <path class="data-line" d="${linePath}"/>
+    ${points.map(p => `<circle class="dot" cx="${p.x}" cy="${p.y}"><title>${p.day}: ${p.count}</title></circle>`).join('')}
+    ${labels.join('')}
+  </svg></div>`;
+}
+
+function renderHours(hours) {
+  const full = Array(24).fill(0);
+  hours.forEach(h => { full[h.hour] = h.count; });
+  const max = Math.max(...full, 1);
+  const bars = full.map((c, i) => {
+    const pct = (c / max * 100);
+    return `<div class="hour-bar" style="height:${Math.max(pct, 2)}%" title="${i}:00 — ${c}"></div>`;
+  }).join('');
+  const labels = full.map((_, i) => `<span class="hour-label">${i % 3 === 0 ? i : ''}</span>`).join('');
+  return `<div class="hours-grid">${bars}</div><div class="hour-labels">${labels}</div>`;
+}
+
+function render(d) {
+  const showSource = !currentSource;
+  let html = `
+    <div class="cards">
+      <div class="card"><div class="card-label">Sessions (30d)</div><div class="card-value">${d.total_sessions}</div></div>
+      <div class="card"><div class="card-label">Today</div><div class="card-value">${d.today_sessions}</div></div>
+      <div class="card"><div class="card-label">Avg Duration</div><div class="card-value duration">${formatDuration(d.avg_duration_seconds)}</div></div>
+    </div>
+    <div class="section">
+      <div class="section-title">Sessions per Day</div>
+      ${renderLineChart(d.sessions_per_day)}
+    </div>
+    <div class="section">
+      <div class="section-title">Languages</div>
+      ${renderBars(d.locale_distribution, 'locale', 'count')}
+    </div>`;
+  if (showSource) {
+    html += `<div class="section">
+      <div class="section-title">Sources</div>
+      ${renderBars(d.source_distribution, 'source', 'count')}
+    </div>`;
+  }
+  html += `<div class="section">
+      <div class="section-title">Devices</div>
+      ${renderBars(d.device_distribution, 'device', 'count')}
+    </div>
+    <div class="section">
+      <div class="section-title">Peak Hours (UTC)</div>
+      ${renderHours(d.peak_hours)}
+    </div>`;
+  document.getElementById('content').innerHTML = html;
+}
+
+async function loadData() {
+  try {
+    const url = currentSource ? `${apiBase}?source=${currentSource}` : apiBase;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    render(data);
+  } catch (e) {
+    document.getElementById('content').innerHTML = `<div class="error">Failed to load: ${e.message}</div>`;
+  }
+}
+
+document.getElementById('tabs').addEventListener('click', (e) => {
+  const tab = e.target.closest('.tab');
+  if (!tab) return;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  currentSource = tab.dataset.source;
+  loadData();
+});
+
+loadData();
+setInterval(loadData, 60000);
+</script>
+</body>
+</html>

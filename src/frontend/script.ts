@@ -79,9 +79,22 @@ let reconnectAttempt = 0;
 let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
 let isModalOpen = false;
 
-const WS_URL = isExtension
+const WS_BASE = isExtension
   ? 'wss://hooponopono.online/ws'
   : `wss://${window.location.host}/ws`;
+
+function detectDevice(): 'mobile' | 'desktop' {
+  return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
+}
+
+function buildWsUrl(): string {
+  const params = new URLSearchParams({
+    lang: currentLang,
+    src: isExtension ? 'ext' : 'web',
+    device: detectDevice(),
+  });
+  return `${WS_BASE}?${params}`;
+}
 
 // --- Phrase sync ---
 
@@ -239,7 +252,7 @@ function connectWebSocket(): void {
   ws?.close();
 
   try {
-    ws = new WebSocket(WS_URL);
+    ws = new WebSocket(buildWsUrl());
   } catch {
     const el = document.getElementById('online');
     const labels = LABELS[currentLang];

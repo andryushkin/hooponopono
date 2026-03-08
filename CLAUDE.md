@@ -12,11 +12,12 @@ Migration from DigitalOcean (Python WebSocket server) is complete.
 - Online counter — real WebSocket connections only (0 when nobody online)
 - 12 languages, audio for EN only (sounds/hooponopono_en.m4a)
 - Chrome Extension (MV3, opens meditation on toolbar icon click)
+- Anonymous session analytics — SQLite in DO, admin dashboard at `/stats/{hash}`
 
 ## Stack
 
 - **Runtime/package manager:** Bun
-- **Hosting:** Cloudflare Pages (static) + Durable Objects (WebSocket, online counter)
+- **Hosting:** Cloudflare Pages (static) + Durable Objects (WebSocket, online counter, session analytics)
 - **TypeScript** throughout
 
 ## Key Commands
@@ -36,20 +37,21 @@ bun run type-check     # tsc --noEmit for BOTH tsconfigs (worker + frontend)
 ```
 src/
   frontend/
-    script.ts        # Phrase sync (setInterval 200ms), WebSocket (online_count only)
+    script.ts        # Phrase sync (setInterval 200ms), WebSocket with session metadata
     index.html       # No modal, no StatCounter
     style.css        # No modal CSS
     newtab.html      # Chrome Extension newtab
     tsconfig.json    # lib: ["DOM"], resolveJsonModule: true — NO workers-types
   worker/
-    index.ts         # Pages worker: /ws → HoopRoom DO, else → ASSETS.fetch
-    hoop-room.ts     # Durable Object: Hibernation API, broadcasts online count
+    index.ts         # Pages worker: /ws → DO, /stats/{hash} → dashboard/API, else → ASSETS
+    hoop-room.ts     # DO: Hibernation API, online count, SQLite session tracking, stats API
     tsconfig.json    # types: ["@cloudflare/workers-types"] — NO DOM lib
 public/
   phrases.json       # Single source of truth: phrases, labels, timing constants
   sounds/            # hooponopono_en.m4a
   _redirects         # www → apex 301 (Cloudflare only, warning locally — expected)
   _headers           # CORS for phrases.json
+  stats.html         # Admin dashboard (self-contained, dark theme, source tabs)
 extension/
   manifest.json      # MV3, default_locale: en, __MSG_*__ for name/description/title
   background.js      # service worker: opens newtab.html on toolbar icon click
@@ -90,6 +92,20 @@ Constants live in `public/phrases.json` (imported by script.ts via bun):
 - Broadcasts `{ type: "online_count", count }` on every connect/disconnect
 - `env.ASSETS` typed as `(env as unknown as { ASSETS: Fetcher }).ASSETS`
 
+### Session Analytics (SQLite)
+- Table `sessions`: id, started, duration, locale, source, device
+- Session metadata from WS URL query params: `?lang=en&src=web&device=desktop`
+- Sources: `web` (site), `ext` (Chrome Extension), `ios` (iOS app)
+- Duration: server-side, computed from WS connect/disconnect timestamps
+- WebSocket tags: `state.acceptWebSocket(server, [sid, startTimestamp])` — used on close/error
+- Cleanup: records older than 90 days, max once per hour
+- Stats API: `/stats` endpoint in DO, returns JSON with optional `?source=` filter
+
+### Admin Dashboard
+- Route: `/stats/{STATS_SECRET}` → `stats.html`, `/stats/{STATS_SECRET}/api` → DO stats JSON
+- `STATS_SECRET` is a Cloudflare Pages secret
+- Dashboard: self-contained HTML, dark theme, tabs (All/Web/Ext/iOS), auto-refresh 60s
+
 ## Audio: EN-only, State Reset on Language Switch
 
 - Audio is EN-only. `isMuted` persists in memory and localStorage.
@@ -115,7 +131,8 @@ Old `setInterval` pattern created parallel connections — do NOT use it.
 - **Does NOT override newtab** — meditation opens only on toolbar icon click
 - `background.js` (service worker): `chrome.action.onClicked` → `chrome.tabs.create({ url: chrome.runtime.getURL('newtab.html') })`
 - `chrome.tabs.create()` requires no extra permissions — allowed by default in MV3
-- WS_URL hardcoded to `wss://hooponopono.online/ws` (not `pages.dev` — unstable)
+- WS URL includes query params: `?lang=en&src=ext&device=desktop` (session metadata for analytics)
+- WS base URL hardcoded to `wss://hooponopono.online/ws` (not `pages.dev` — unstable)
 - `isExtension` check via `globalThis['chrome']?.runtime` (no @types/chrome needed)
 - icons/ must be populated before publishing to Chrome Web Store
 

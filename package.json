@@ -3,7 +3,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build:frontend": "mkdir -p dist/sounds && bun build src/frontend/script.ts --outfile dist/script.js --target browser --minify && cp src/frontend/index.html dist/ && cp src/frontend/style.css dist/ && cp -r public/sounds/. dist/sounds/ && cp public/_redirects dist/ && cp public/_headers dist/ && cp public/phrases.json dist/ && cp public/privacy.html dist/",
+    "build:frontend": "mkdir -p dist/sounds && bun build src/frontend/script.ts --outfile dist/script.js --target browser --minify && cp src/frontend/index.html dist/ && cp src/frontend/style.css dist/ && cp -r public/sounds/. dist/sounds/ && cp public/_redirects dist/ && cp public/_headers dist/ && cp public/phrases.json dist/ && cp public/privacy.html dist/ && cp public/stats.html dist/",
     "build:worker": "bun build src/worker/index.ts --outfile dist/_worker.js --format esm --minify",
     "build:ext": "rm -rf extension/dist && mkdir -p extension/dist/sounds extension/dist/icons && bun build src/frontend/script.ts --outfile extension/dist/script.js --target browser --minify && cp src/frontend/newtab.html extension/dist/ && cp src/frontend/style.css extension/dist/ && cp -r public/sounds/. extension/dist/sounds/ && cp public/phrases.json extension/dist/ && cp extension/manifest.json extension/dist/ && cp extension/background.js extension/dist/ && (cp -r extension/icons/. extension/dist/icons/ 2>/dev/null || true) && cp -r extension/_locales extension/dist/_locales",
     "build": "bun run build:frontend && bun run build:worker && bun run build:ext",
