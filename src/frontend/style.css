@@ -17,37 +17,74 @@ body {
     color: white;
 }
 
-.language-selector {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+/* Online counter — top-left */
+#online {
+    position: fixed;
+    top: 40px;
+    left: 20px;
     z-index: 100;
+}
+
+/* Controls panel — top right */
+.controls {
+    position: fixed;
+    right: 40px;
+    top: 27px;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
+    gap: 12px;
+    z-index: 100;
+}
+
+.control-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.control-item.hidden { display: none; }
+
+.control-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+
+.control-btn:hover { background: rgba(255, 255, 255, 0.25); }
+.control-btn:disabled { opacity: 0.35; cursor: default; }
+
+.control-label {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 13px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s;
+    transform: translateX(6px);
+}
+
+.control-item:hover .control-label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Mobile: hide labels (no hover) */
+@media (hover: none) {
+    .control-label { display: none; }
 }
 
 .language-dropdown {
     position: relative;
     display: inline-block;
-}
-
-.language-button {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-.language-button:hover {
-    background: rgba(255, 255, 255, 0.3);
 }
 
 .language-menu {
@@ -120,25 +157,6 @@ body {
     transform: translateY(0);
 }
 
-.mute-button {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-.mute-button:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-.mute-button.hidden {
-    display: none;
-}
 
 .cws-link-container {
     position: fixed;
@@ -178,7 +196,6 @@ body {
     gap: 5px;
     font-size: 13px;
     color: rgba(255, 255, 255, 0.65);
-    padding: 4px 0;
 }
 
 .online::before {
@@ -194,11 +211,6 @@ body {
 }
 
 @media (max-width: 768px) {
-    .language-selector {
-        top: 15px;
-        right: 15px;
-    }
-
     .phrase {
         font-size: 2.5em;
     }
@@ -212,27 +224,6 @@ body {
     .phrase {
         font-size: 4.5em;
     }
-}
-
-/* --- Info button --- */
-.info-button {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
-
-.info-button:hover {
-    background: rgba(255, 255, 255, 0.3);
 }
 
 /* --- Info modal overlay --- */
