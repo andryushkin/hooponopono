@@ -153,3 +153,13 @@ Old `setInterval` pattern created parallel connections — do NOT use it.
 - Runtime translations (phrases, labels, info modal) stay in `phrases.json` — NOT duplicated in `_locales/`
 - **Critical:** `@@bidi_dir` is a reserved Chrome system key — do NOT define it in messages.json (causes extension load error)
 - `build:ext` cleans `extension/dist/` with `rm -rf` before each build to prevent stale/nested `_locales/`
+
+## CWS Listing Translations (51 languages)
+
+- English template: `docs/lang/EN.md` (Title / Short Description / Long Description)
+- Progress checklist: `docs/lang/Language.md` — 51 languages, `[x]` for completed
+- Translation skill: `.claude/skills/translate-cws-listing/SKILL.md` — invoke with `/translate-cws-listing {code}`
+- Character limits: Title ≤45, Short ≤132, Long ≤4500
+- **"50+ languages"** in feature list (not "12")
+- **"100% Free Forever"** feature bullet is removed — do NOT include in translations
+- SEO: always include local transliteration of "ho'oponopono" + meditation/forgiveness/healing keywords

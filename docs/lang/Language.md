@@ -1,0 +1,54 @@
+# CWS Listing Translations
+
+- [x] en - English (reference)
+- [ ] am - Amharic
+- [x] ar - Arabic
+- [ ] bg - Bulgarian
+- [ ] bn - Bengali
+- [ ] ca - Catalan
+- [ ] cs - Czech
+- [ ] da - Danish
+- [ ] de - German
+- [ ] el - Greek
+- [ ] es - Spanish
+- [ ] es_419 - Spanish (LA)
+- [ ] et - Estonian
+- [ ] fa - Persian
+- [ ] fi - Finnish
+- [ ] fil - Filipino
+- [ ] fr - French
+- [ ] gu - Gujarati
+- [ ] he - Hebrew
+- [ ] hi - Hindi
+- [ ] hr - Croatian
+- [ ] hu - Hungarian
+- [ ] id - Indonesian
+- [ ] it - Italian
+- [x] ja - Japanese
+- [ ] kn - Kannada
+- [ ] ko - Korean
+- [ ] lt - Lithuanian
+- [ ] lv - Latvian
+- [ ] ml - Malayalam
+- [ ] mr - Marathi
+- [ ] ms - Malay
+- [ ] nl - Dutch
+- [ ] no - Norwegian
+- [ ] pl - Polish
+- [ ] pt_BR - Portuguese (Brazil)
+- [ ] pt_PT - Portuguese (Portugal)
+- [ ] ro - Romanian
+- [x] ru - Russian
+- [ ] sk - Slovak
+- [ ] sl - Slovenian
+- [ ] sr - Serbian
+- [ ] sv - Swedish
+- [ ] sw - Swahili
+- [ ] ta - Tamil
+- [ ] te - Telugu
+- [ ] th - Thai
+- [ ] tr - Turkish
+- [ ] uk - Ukrainian
+- [ ] vi - Vietnamese
+- [ ] zh_CN - Chinese (Simplified)
+- [ ] zh_TW - Chinese (Traditional)
