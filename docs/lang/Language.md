@@ -1,54 +1,54 @@
 # CWS Listing Translations
 
 - [x] en - English (reference)
-- [ ] am - Amharic
+- [x] am - Amharic
 - [x] ar - Arabic
-- [ ] bg - Bulgarian
-- [ ] bn - Bengali
-- [ ] ca - Catalan
-- [ ] cs - Czech
-- [ ] da - Danish
-- [ ] de - German
-- [ ] el - Greek
-- [ ] es - Spanish
-- [ ] es_419 - Spanish (LA)
-- [ ] et - Estonian
-- [ ] fa - Persian
-- [ ] fi - Finnish
-- [ ] fil - Filipino
-- [ ] fr - French
-- [ ] gu - Gujarati
-- [ ] he - Hebrew
-- [ ] hi - Hindi
-- [ ] hr - Croatian
-- [ ] hu - Hungarian
-- [ ] id - Indonesian
-- [ ] it - Italian
+- [x] bg - Bulgarian
+- [x] bn - Bengali
+- [x] ca - Catalan
+- [x] cs - Czech
+- [x] da - Danish
+- [x] de - German
+- [x] el - Greek
+- [x] es - Spanish
+- [x] es_419 - Spanish (LA)
+- [x] et - Estonian
+- [x] fa - Persian
+- [x] fi - Finnish
+- [x] fil - Filipino
+- [x] fr - French
+- [x] gu - Gujarati
+- [x] he - Hebrew
+- [x] hi - Hindi
+- [x] hr - Croatian
+- [x] hu - Hungarian
+- [x] id - Indonesian
+- [x] it - Italian
 - [x] ja - Japanese
-- [ ] kn - Kannada
-- [ ] ko - Korean
-- [ ] lt - Lithuanian
-- [ ] lv - Latvian
-- [ ] ml - Malayalam
-- [ ] mr - Marathi
-- [ ] ms - Malay
-- [ ] nl - Dutch
-- [ ] no - Norwegian
-- [ ] pl - Polish
-- [ ] pt_BR - Portuguese (Brazil)
-- [ ] pt_PT - Portuguese (Portugal)
-- [ ] ro - Romanian
+- [x] kn - Kannada
+- [x] ko - Korean
+- [x] lt - Lithuanian
+- [x] lv - Latvian
+- [x] ml - Malayalam
+- [x] mr - Marathi
+- [x] ms - Malay
+- [x] nl - Dutch
+- [x] no - Norwegian
+- [x] pl - Polish
+- [x] pt_BR - Portuguese (Brazil)
+- [x] pt_PT - Portuguese (Portugal)
+- [x] ro - Romanian
 - [x] ru - Russian
-- [ ] sk - Slovak
-- [ ] sl - Slovenian
-- [ ] sr - Serbian
-- [ ] sv - Swedish
-- [ ] sw - Swahili
-- [ ] ta - Tamil
-- [ ] te - Telugu
-- [ ] th - Thai
-- [ ] tr - Turkish
-- [ ] uk - Ukrainian
-- [ ] vi - Vietnamese
-- [ ] zh_CN - Chinese (Simplified)
-- [ ] zh_TW - Chinese (Traditional)
+- [x] sk - Slovak
+- [x] sl - Slovenian
+- [x] sr - Serbian
+- [x] sv - Swedish
+- [x] sw - Swahili
+- [x] ta - Tamil
+- [x] te - Telugu
+- [x] th - Thai
+- [x] tr - Turkish
+- [x] uk - Ukrainian
+- [x] vi - Vietnamese
+- [x] zh_CN - Chinese (Simplified)
+- [x] zh_TW - Chinese (Traditional)
