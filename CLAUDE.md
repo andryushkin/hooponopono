@@ -154,6 +154,14 @@ Old `setInterval` pattern created parallel connections — do NOT use it.
 - **Critical:** `@@bidi_dir` is a reserved Chrome system key — do NOT define it in messages.json (causes extension load error)
 - `build:ext` cleans `extension/dist/` with `rm -rf` before each build to prevent stale/nested `_locales/`
 
+## CWS Screenshots Generator
+
+- Script: `tools/generate_screenshots.py` — overlays ho'oponopono phrases on `docs/img/screen_CWS.png` (1280×800)
+- Output: `docs/img/{lang_code}/1.png`…`4.png`, 208 files total (52 langs × 4 phrases)
+- Run: `uv run tools/generate_screenshots.py` (auto-installs Pillow via PEP 723)
+- **Critical:** Arabic/Persian use `،` (U+060C Arabic comma), not `,` — script does `.replace("،", ",")` before split
+- Font fallback chain: FONT_MAP per language → Arial Unicode (`/System/Library/Fonts/Supplemental/Arial Unicode.ttf`, 23MB) as universal last resort
+
 ## CWS Listing Translations (51 languages)
 
 - English template: `docs/lang/EN.md` (Title / Short Description / Long Description)
